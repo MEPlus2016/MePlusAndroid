@@ -1,0 +1,1 @@
+include ':clientApp', ':robotApp', ':slamtecApp', ':fancyApp', ':agora', ':avos', ':pubnub', ':events', ':base', ':res', ':speech', ':bluetoothspp', ':zbar'

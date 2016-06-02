@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/me_logo_bg_white"
+    android:orientation="vertical"
+    tools:context="com.meplus.client.activity.BindRobotActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/bind_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/bind_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/password_selected"
+            android:drawablePadding="10dp"
+            android:hint="@string/me_robot_id"
+            android:singleLine="true"
+            android:textColor="@color/meTextColor"
+            android:textColorHint="@color/meTextColor" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/meTextColor" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:gravity="left"
+        android:text="@string/me_bind_tip"
+        android:textColor="@color/meTextColor"
+        android:textSize="@dimen/meTextSize"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/bind_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="@drawable/button_blue"
+        android:gravity="center"
+        android:text="@string/me_bind_robot"
+        android:textColor="@color/meWhite"
+        android:textSize="@dimen/meTextSize"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/scan_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/button_blue"
+        android:gravity="center"
+        android:text="@string/me_scan_robot"
+        android:textColor="@color/meWhite"
+        android:textSize="@dimen/meTextSize"
+        android:textStyle="bold" />
+</LinearLayout>

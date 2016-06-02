@@ -1,0 +1,9 @@
+<resources>
+
+
+    <style name="StartAppTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/me_logo_bg</item>
+    </style>
+
+
+</resources>

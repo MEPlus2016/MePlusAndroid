@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FancyAndroid</string>
+    <string name="borrowed_book_list">借书列表</string>
+    <string name="launch_meplus_robot">启动多我程序</string>
+    <string name="return_book">还书</string>
+    <string name="borrow_book">借书</string>
+    <string name="user_info">用户信息</string>
+    <string name="book_isbn_label">图书ISBN：</string>
+    <string name="user_id_label">用户ID：</string>
+    <string name="library_id_label">图书馆ID：</string>
+    <string name="user_info_label">用户信息：</string>
+    <string name="scan_barcode">二维码扫描</string>
+    <string name="scan_isbn">ISBN扫描</string>
+</resources>

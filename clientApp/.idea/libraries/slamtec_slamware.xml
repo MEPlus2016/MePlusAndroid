@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="slamtec_slamware">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../slamtec/libs/slamtec_slamware.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

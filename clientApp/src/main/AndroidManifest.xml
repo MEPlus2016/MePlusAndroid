@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.meplus.client">
+
+    <uses-sdk tools:overrideLibrary="com.facebook.shimmer" />
+
+    <!-- bar code -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name=".app.MPApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="f16c6cd760c3fc803e8376bb14b8475a" />
+
+        <activity
+            android:name=".activity.LogoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme" />
+        <activity
+            android:name=".activity.PasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme" />
+        <activity
+            android:name=".activity.EditPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartAppTheme" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BindRobotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScannerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.meplus.activity.RecordActivity"
+            android:screenOrientation="portrait" />
+        <!-- agora -->
+        <activity
+            android:name="com.meplus.activity.VideoActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.meplus.client.activity.CallActivity"
+            android:screenOrientation="landscape" />
+        <!-- feedback -->
+        <activity
+            android:name="com.meplus.avos.activity.FeedbackActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

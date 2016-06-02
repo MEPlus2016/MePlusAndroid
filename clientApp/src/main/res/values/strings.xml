@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MePlusClient</string>
+
+    <string name="me_phone_number">手机号</string>
+    <string name="me_register">注册</string>
+    <string name="me_password_number">密码</string>
+    <string name="me_password_forgot">忘记密码 ？</string>
+    <string name="me_login">登录</string>
+    <string name="me_password_confirm">确认密码</string>
+    <string name="me_email">邮箱</string>
+    <string name="me_reset_passwrod">重置密码</string>
+    <string name="me_logout">退出登录</string>
+    <string name="me_old_password">旧密码</string>
+    <string name="me_new_password">新密码</string>
+    <string name="me_edit_passwrod">修改密码</string>
+    <string name="me_bind_robot">绑定机器人</string>
+    <string name="me_robot_id">机器人ID</string>
+    <string name="me_scan_robot">扫描机器</string>
+    <string name="me_bind_tip">请认真填写机器人ID或通过扫描的方式</string>
+
+</resources>
