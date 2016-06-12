@@ -12,7 +12,14 @@ public class Command {
     public final static String ACTION_LEFT = "left";
     public final static String ACTION_RIGHT = "right";
     public final static String ACTION_STOP = "stop";
-
+    public final static String ZERO = "zero";
+    public final static String ONE = "one";
+    public final static String TWO = "two";
+    public final static String THREE = "three";
+    public final static String FOUR = "four";
+    public final static String FIVE = "five";
+    public final static String SIX = "six";
+    public final static String SEVEN = "seven";
     public final static String ACTION_HOME = "home";
 
     public String sender;

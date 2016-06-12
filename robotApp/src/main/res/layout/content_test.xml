@@ -84,6 +84,7 @@
                 <include layout="@layout/map_layout" />
 
                 <include layout="@layout/control_layout" />
+                <include layout="@layout/control_layout_down" />
 
 
             </LinearLayout>

@@ -21,6 +21,7 @@ import com.meplus.presenters.AgoraPresenter;
 import com.meplus.punub.Command;
 import com.meplus.punub.PubnubPresenter;
 import com.meplus.robot.Constants;
+import com.meplus.robot.FireflyGPIO;
 import com.meplus.robot.R;
 import com.meplus.robot.app.MPApplication;
 import com.meplus.robot.events.BluetoothEvent;
@@ -43,6 +44,8 @@ import io.agora.sample.agora.AgoraApplication;
  */
 public class TestsActivity extends BaseActivity {
     private static final int MIN_DISTANCE = 10;
+    int fd;
+    int cmd;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.bluetooth_state)
@@ -206,7 +209,7 @@ public class TestsActivity extends BaseActivity {
     }
 
 
-    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button})
+    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button,R.id.zero, R.id.one, R.id.two, R.id.three,R.id.four, R.id.five, R.id.six, R.id.seven})
     public boolean onTouch(View view, MotionEvent event) {
         final int action = event.getAction();
         final int id = view.getId();
@@ -244,6 +247,46 @@ public class TestsActivity extends BaseActivity {
                 break;
             case R.id.down_button:
                 message = Command.ACTION_DOWN;
+                break;
+            case R.id.zero:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd = 0;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.one:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd =1;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.two:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd = 3;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.three:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd =4;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.four:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd = 5;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.five:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd =6;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.six:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd = 7;
+                FireflyGPIO.ioctl(fd, cmd);
+                break;
+            case R.id.seven:
+                fd = FireflyGPIO.open("/dev/firefly_gpio");
+                cmd =9;
+                FireflyGPIO.ioctl(fd, cmd);
                 break;
         }
         return sendDirection(message);

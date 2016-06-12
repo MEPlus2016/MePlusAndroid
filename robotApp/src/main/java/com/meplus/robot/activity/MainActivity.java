@@ -28,6 +28,7 @@ import com.meplus.presenters.AgoraPresenter;
 import com.meplus.punub.Command;
 import com.meplus.punub.CommandEvent;
 import com.meplus.punub.PubnubPresenter;
+import com.meplus.robot.FireflyGPIO;
 import com.meplus.robot.R;
 import com.meplus.robot.app.MPApplication;
 import com.meplus.robot.events.BluetoothEvent;
@@ -91,7 +92,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean mOpenSpeech = false;
     private Handler mSpeechHandler = new Handler();
     private boolean mBluetoothSupport = true;
-
+    int fd;
+    int cmd;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -312,10 +314,51 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 case Command.ACTION_UP:
                 case Command.ACTION_RIGHT:
                 case Command.ACTION_DOWN:
+
                 case Command.ACTION_STOP:
                     if (!mBTPresenter.sendDirection(message)) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));
                     }
+                    break;
+                case Command.ZERO:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 0;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.ONE:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 1;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.TWO:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 3;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.THREE:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 4;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.FOUR:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 5;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.FIVE:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 6;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.SIX:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 7;
+                    FireflyGPIO.ioctl(fd, cmd);
+                    break;
+                case Command.SEVEN:
+                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    cmd = 8;
+                    FireflyGPIO.ioctl(fd, cmd);
                     break;
                 case Command.ACTION_CALL:
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了

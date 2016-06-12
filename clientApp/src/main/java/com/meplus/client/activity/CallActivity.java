@@ -33,7 +33,7 @@ public class CallActivity extends VideoActivity {
     }
 
 
-    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button})
+    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button,R.id.zero, R.id.one, R.id.two, R.id.three,R.id.four, R.id.five, R.id.six, R.id.seven})
     public boolean onTouch(View view, MotionEvent event) {
         final int action = event.getAction();
         final int id = view.getId();
@@ -63,6 +63,30 @@ public class CallActivity extends VideoActivity {
                 break;
             case R.id.down_button:
                 message = Command.ACTION_DOWN;
+                break;
+            case R.id.zero:
+                message = Command.ZERO;
+                break;
+            case R.id.one:
+                message = Command.ONE;
+                break;
+            case R.id.two:
+                message = Command.TWO;
+                break;
+            case R.id.three:
+                message = Command.THREE;
+                break;
+            case R.id.four:
+                message = Command.FOUR;
+                break;
+            case R.id.five:
+                message = Command.FIVE;
+                break;
+            case R.id.six:
+                message = Command.SIX;
+                break;
+            case R.id.seven:
+                message = Command.SEVEN;
                 break;
         }
         return postEvent(message);
