@@ -329,5 +329,5 @@ public class TestsActivity extends BaseActivity {
         b5.setImageResource(dis5 < MIN_DISTANCE ? R.drawable.b5_selected : R.drawable.b5_normal);
     }
 
-    //测试提交
+    //测试提交11
 }
