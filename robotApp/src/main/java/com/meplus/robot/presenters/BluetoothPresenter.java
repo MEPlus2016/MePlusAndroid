@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,12 +35,16 @@ import app.akexorcist.bluetotohspp.library.BluetoothSPP.BluetoothConnectionListe
 import app.akexorcist.bluetotohspp.library.BluetoothState;
 import hugo.weaving.DebugLog;
 
-public class BluetoothPresenter {
+public class BluetoothPresenter implements Handler.Callback{
     private static final String TAG = BluetoothPresenter.class.getSimpleName();
     private final static boolean ENABLE = true;
     private final int PERCENT = 42;
     private final int MAX = 500;
     private BluetoothSPP bt;
+
+    //change V
+    private Handler mHandler;
+    private int V = 0;
 
     public BluetoothPresenter(Context context) {
         if (!ENABLE) return;
@@ -79,6 +85,10 @@ public class BluetoothPresenter {
             }
         });
         bt.setOnDataReceivedListener((data, message) -> receivedData(data, message));
+
+        //change V
+        mHandler = new Handler();
+        mHandler.sendEmptyMessageDelayed(1, 500);
     }
 
     /**
@@ -153,8 +163,8 @@ public class BluetoothPresenter {
     }
 
     public boolean sendDefault() {
-        return setEn(true);
-    }
+        return setEn(false);
+    }//true开启避障，false关闭避障
 
     @DebugLog
     private boolean setEn(boolean enable) { //En：00-关闭自主避障，01-开启自主避障
@@ -191,7 +201,7 @@ public class BluetoothPresenter {
             return false;
         }
        /* final int V = (MAX * PERCENT / 100);*/
-        final int V = (MAX * PERCENT / 100);
+        int changeV = getV();
 
         int V1 = 0;
         int V2 = 0;
@@ -202,20 +212,25 @@ public class BluetoothPresenter {
         byte CheckSum;
 
         if (action.equals(Command.ACTION_UP)) {
-            V1 = V * 3 / 2;
-            V2 = V * 3 / 2;
+            V1 = changeV * 3 / 2;
+            V2 = changeV * 3 / 2;
+            Log.i("test","up"+changeV);
         } else if (action.equals(Command.ACTION_DOWN)) {
-            V1 = -V;
-            V2 = -V;
+            V1 = -changeV;
+            V2 = -changeV;
+            Log.i("test","down"+changeV);
         } else if (action.equals(Command.ACTION_LEFT)) {
-            V1 = -V / 2;
-            V2 = V / 2;
+            V1 = -changeV / 2;
+            V2 = changeV / 2;
+            Log.i("test","left"+changeV);
         } else if (action.equals(Command.ACTION_RIGHT)) {
-            V1 = V / 2;
-            V2 = -V / 2;
+            V1 = changeV / 2;
+            V2 = -changeV / 2;
+            Log.i("right","right"+changeV);
         } else if (action.equals(Command.ACTION_STOP)) {
             V1 = 0;
             V2 = 0;
+            i=0;
         }
 
         V1H = (byte) (V1 >> 8);
@@ -334,6 +349,35 @@ public class BluetoothPresenter {
         final BluetoothEvent event = new BluetoothEvent();
         event.setConnected(isConnected());
         EventUtils.postEvent(event);
+    }
+
+    int i = 0;
+    final int[] Vtime = {42,84,126,168,210};
+
+    public int getV(){
+
+        final int[] Vtime = {42,84,126,168,210};
+        mHandler = new Handler(this);
+        mHandler.sendEmptyMessageDelayed(1,500);
+        return V;
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+
+        if (msg.what == 1) {
+            if(i<4) {
+                i++;
+                V = Vtime[i];
+                Log.i("test",i+"*"+V+"@");
+                mHandler.sendEmptyMessageDelayed(1,500);
+            }else{
+                V = Vtime[4];
+                Log.i("test", i + "@@@" + V + "@@@");
+                mHandler.sendEmptyMessageDelayed(1,500);
+            }
+        }
+        return false;
     }
 
 }
