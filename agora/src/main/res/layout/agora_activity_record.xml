@@ -8,7 +8,7 @@
         android:id="@+id/record_actionbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/ic_key_rectangle_bg">
+        android:background="@color/transparent">
 
         <!--Back Button-->
 
@@ -18,16 +18,24 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="17dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_key_navi_button_back"/>
+            android:src="@drawable/back"/>
 
         <TextView
+            android:id="@+id/call_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/record_title"
             android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/colorPrimary"/>
+
+        <View
+
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/colorPrimary" />
 
     </RelativeLayout>
 

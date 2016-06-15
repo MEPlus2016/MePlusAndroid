@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
-        android:src="@drawable/me_logo" />
+        android:src="@drawable/logo" />
 
 
     <LinearLayout
@@ -46,17 +46,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/phone_selected"
+                android:drawableLeft="@drawable/icon_phone_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_phone_number"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/colorTitle"
+                android:textColorHint="@color/colorTitle" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/colorTitle" />
 
         </LinearLayout>
 
@@ -74,18 +74,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/password_selected"
+                android:drawableLeft="@drawable/icon_password_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_password_number"
                 android:password="true"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/colorTitle"
+                android:textColorHint="@color/colorTitle" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/colorTitle" />
 
         </LinearLayout>
 
@@ -97,7 +97,7 @@
             android:layout_margin="5dp"
             android:gravity="right"
             android:text="@string/me_password_forgot"
-            android:textColor="@color/meTextColor"
+            android:textColor="@color/colorTitle"
             android:textSize="@dimen/meTextSize"
             android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="@string/me_register"
-            android:textColor="@color/meTextColor"
+            android:textColor="@color/colorTitle"
             android:textSize="@dimen/meTextSize"
             android:textStyle="bold" />
     </LinearLayout>

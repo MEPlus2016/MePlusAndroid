@@ -58,7 +58,7 @@ public class SettingsActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setTitle("设置");
+//        mToolbar.setTitle("设置");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/bg_menu"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -12,28 +12,33 @@
         android:layout_height="80dp"
         android:layout_margin="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/me_logo" />
+        android:src="@drawable/logo_small" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/icon_user"
         android:layout_marginTop="20dp"
         android:textColor="@color/meWhite"
-        android:textSize="@dimen/meTitleSize" />
+        android:textSize="@dimen/meSloganSize" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/icon_email"
         android:textColor="@color/meWhite"
-        android:textSize="@dimen/meTextSize" />
+        android:textSize="@dimen/meTextSize"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/icon_robot"
         android:textColor="@color/meWhite"
-        android:textSize="@dimen/meTextSize" />
+        android:textSize="@dimen/meTextSize"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

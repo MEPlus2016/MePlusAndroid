@@ -36,17 +36,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/password_selected"
+            android:drawableLeft="@drawable/icon_password_hilight"
             android:drawablePadding="10dp"
             android:hint="@string/me_robot_id"
             android:singleLine="true"
-            android:textColor="@color/meTextColor"
-            android:textColorHint="@color/meTextColor" />
+            android:textColor="@color/colorTitle"
+            android:textColorHint="@color/colorTitle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/meTextColor" />
+            android:background="@color/colorTitle" />
 
     </LinearLayout>
 

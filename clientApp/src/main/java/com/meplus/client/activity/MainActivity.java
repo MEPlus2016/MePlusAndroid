@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setTitle("首页");
+//        getSupportActionBar().setTitle("首页");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();

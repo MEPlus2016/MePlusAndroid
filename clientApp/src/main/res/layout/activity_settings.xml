@@ -15,9 +15,23 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/meWhite"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="设置"
+            android:textColor="@color/colorTitle"
+            android:textSize="19sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/mTextColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,12 +52,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:drawableLeft="@drawable/me_icon_home"
+                android:drawableLeft="@drawable/icon_options"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="设置绑定"
-                android:textColor="@color/meItemTextColor"
+                android:textColor="@color/meBlack"
                 android:textSize="@dimen/meTitleSize" />
 
             <View
@@ -65,12 +79,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:drawableLeft="@drawable/me_icon_password"
+                android:drawableLeft="@drawable/icon_change_password"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="修改密码"
-                android:textColor="@color/meItemTextColor"
+                android:textColor="@color/meBlack"
                 android:textSize="@dimen/meTitleSize" />
 
             <View
@@ -98,7 +112,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="意见反馈"
-                android:textColor="@color/meItemTextColor"
+                android:textColor="@color/meBlack"
                 android:textSize="@dimen/meTitleSize" />
 
             <View
@@ -120,12 +134,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:drawableLeft="@drawable/me_icon_feedback"
+                android:drawableLeft="@drawable/me_icon_edition"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="版本检查"
-                android:textColor="@color/meItemTextColor"
+                android:textColor="@color/meBlack"
                 android:textSize="@dimen/meTitleSize" />
 
             <View
@@ -142,7 +156,7 @@
             android:layout_margin="25dp"
             android:background="@drawable/button_blue"
             android:gravity="center"
-            android:text="@string/me_logout"
+            android:text="退出登录"
             android:textColor="@color/meWhite"
             android:textSize="@dimen/meTextSize"
             android:textStyle="bold" />

@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
-        android:src="@drawable/me_logo" />
+        android:src="@drawable/logo" />
 
 
     <LinearLayout
@@ -46,17 +46,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/phone_selected"
+                android:drawableLeft="@drawable/icon_phone_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_phone_number"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/mTextColor"
+                android:textColorHint="@color/mTextColor" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/mTextColor" />
 
         </LinearLayout>
 
@@ -74,17 +74,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/phone_selected"
+                android:drawableLeft="@drawable/icon_email_sign_up_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_email"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/mTextColor"
+                android:textColorHint="@color/mTextColor" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/mTextColor" />
 
         </LinearLayout>
 
@@ -102,18 +102,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/password_selected"
+                android:drawableLeft="@drawable/icon_password_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_password_number"
                 android:password="true"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/mTextColor"
+                android:textColorHint="@color/mTextColor" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/mTextColor" />
 
         </LinearLayout>
 
@@ -131,18 +131,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/password_selected"
+                android:drawableLeft="@drawable/icon_password_hilight"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_password_confirm"
                 android:password="true"
                 android:singleLine="true"
-                android:textColor="@color/meTextColor"
-                android:textColorHint="@color/meTextColor" />
+                android:textColor="@color/mTextColor"
+                android:textColorHint="@color/mTextColor" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/meTextColor" />
+                android:background="@color/mTextColor" />
 
         </LinearLayout>
 
