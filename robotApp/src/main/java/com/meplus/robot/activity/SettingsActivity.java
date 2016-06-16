@@ -15,7 +15,6 @@ import com.meplus.robot.utils.SnackBarUtils;
 import com.meplus.speech.event.LangEvent;
 import com.meplus.utils.FIRUtils;
 import com.meplus.utils.IntentUtils;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,26 +28,21 @@ public class SettingsActivity extends BaseActivity {
     LinearLayout mRoot;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.sb_text)
     SwitchButton mSpeechLanButton;
 
     private final VersionCheckCallback mCallback = new VersionCheckCallback() {
-
         @Override
         public void onSuccess(String json) {
             FIRUtils.onSuccess(SettingsActivity.this, json);
         }
-
         @Override
         public void onFail(Exception e) {
             SnackBarUtils.show(mRoot, e.toString());
         }
-
         @Override
         public void onStart() {
         }
-
         @Override
         public void onFinish() {
         }
@@ -59,18 +53,14 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-
         mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setTitle("设置");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
         mSpeechLanButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             com.meplus.speech.Constants.LANG = isChecked ? com.meplus.speech.Constants.ZH_LANG : com.meplus.speech.Constants.EN_LANG;
             EventUtils.postEvent(new LangEvent(isChecked ? LangEvent.ZH_LANG : LangEvent.EN_LANG));
         });
-
         mSpeechLanButton.setChecked(com.meplus.speech.Constants.LANG.equals(com.meplus.speech.Constants.ZH_LANG));
     }
 

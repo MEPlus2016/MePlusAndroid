@@ -36,16 +36,13 @@ public class SettingsActivity extends BaseActivity {
         public void onSuccess(String json) {
             FIRUtils.onSuccess(SettingsActivity.this, json);
         }
-
         @Override
         public void onFail(Exception e) {
             SnackBarUtils.show(mRoot, e.toString());
         }
-
         @Override
         public void onStart() {
         }
-
         @Override
         public void onFinish() {
         }
@@ -56,7 +53,6 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setTitle("设置");
         setSupportActionBar(mToolbar);

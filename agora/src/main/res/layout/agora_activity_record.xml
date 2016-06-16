@@ -8,7 +8,7 @@
         android:id="@+id/record_actionbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/ic_key_rectangle_bg">
+        android:background="@color/colorTitle">
 
         <!--Back Button-->
 

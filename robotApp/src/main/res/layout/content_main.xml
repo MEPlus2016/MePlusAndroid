@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/light_white"
     android:padding="20dp">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@drawable/button_blue"
+        android:background="@drawable/button_blue_normals"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:minWidth="100dp"
@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@drawable/button_blue"
+        android:background="@drawable/button_blue_normals"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:minWidth="100dp"

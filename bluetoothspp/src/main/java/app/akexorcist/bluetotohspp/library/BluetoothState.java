@@ -18,7 +18,7 @@
 package app.akexorcist.bluetotohspp.library;
 
 public class BluetoothState {
-    // Constants that indicate the current connection state
+// Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       	// we're doing nothing
     public static final int STATE_LISTEN = 1;     	// now listening for incoming connections
     public static final int STATE_CONNECTING = 2; 	// now initiating an outgoing connection
@@ -31,7 +31,7 @@ public class BluetoothState {
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
-    
+
     // Intent request codes
     public static final int REQUEST_CONNECT_DEVICE = 384;
     public static final int REQUEST_ENABLE_BT = 385;

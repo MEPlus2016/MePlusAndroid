@@ -40,13 +40,12 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/button_blue"
+                    android:background="@drawable/blue_norma"
                     android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/meWhite"
                     android:textSize="@dimen/meTitleSize" />
-
 
                 <TextView
                     android:layout_width="match_parent"
@@ -82,7 +81,6 @@
                     android:textSize="@dimen/meTitleSize" />
 
                 <include layout="@layout/map_layout" />
-
                 <include layout="@layout/control_layout" />
                 <include layout="@layout/control_layout_down" />
 
@@ -102,9 +100,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:background="@drawable/button_blue"
+                    android:background="@drawable/blue_norma"
                     android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:singleLine="true"
                     android:text="本地网络测试"
                     android:textColor="@color/meWhite"
@@ -115,9 +113,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:background="@drawable/button_blue"
+                    android:background="@drawable/blue_norma"
                     android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/meWhite"
                     android:textSize="@dimen/meTitleSize" />
@@ -127,9 +125,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:background="@drawable/button_blue"
+                    android:background="@drawable/blue_norma"
                     android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:singleLine="true"
                     android:text="视频通话测试"
                     android:textColor="@color/meWhite"

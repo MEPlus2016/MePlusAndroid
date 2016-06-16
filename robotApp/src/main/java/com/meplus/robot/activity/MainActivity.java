@@ -314,7 +314,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 case Command.ACTION_UP:
                 case Command.ACTION_RIGHT:
                 case Command.ACTION_DOWN:
-
                 case Command.ACTION_STOP:
                     if (!mBTPresenter.sendDirection(message)) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));

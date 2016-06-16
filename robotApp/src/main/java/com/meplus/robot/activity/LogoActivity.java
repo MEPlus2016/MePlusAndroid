@@ -46,8 +46,7 @@ public class LogoActivity extends BaseActivity implements Handler.Callback {
         setContentView(R.layout.activity_logo);
         ButterKnife.bind(this);
         EventUtils.register(this);
-        mShimmerViewContainer.startShimmerAnimation();
-
+    //    mShimmerViewContainer.startShimmerAnimation();
         mHandler = new Handler(this);
         mHandler.sendEmptyMessageDelayed(1, 3000);
     }

@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -215,6 +216,11 @@ public class BluetoothPresenter implements Handler.Callback{
             V1 = changeV * 3 / 2;
             V2 = changeV * 3 / 2;
             Log.i("test","up"+changeV);
+            if(V==210){
+                CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
+                byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
+                sendData(buffer);
+            }
         } else if (action.equals(Command.ACTION_DOWN)) {
             V1 = -changeV;
             V2 = -changeV;
@@ -315,6 +321,7 @@ public class BluetoothPresenter implements Handler.Callback{
                 Log.i(TAG, info);
                 final String dis = String.format("dis: %1$d,%2$d,%3$d,%4$d,%5$d", U1_Dis, U2_Dis, U3_Dis, U4_Dis, U5_Dis);
                 Log.i(TAG, dis);
+
                 final BluetoothEvent event = new BluetoothEvent();
                 event.setConnected(isConnected());
                 event.setSOC(SOC);
