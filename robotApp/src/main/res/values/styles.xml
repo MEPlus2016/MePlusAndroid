@@ -3,7 +3,9 @@
     <style name="StartAppTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/me_logo_bg_white</item>
     </style>
-
+    <style name="toolBar">
+        <item name="colorControlNormal">#00BAFF</item>
+    </style>
     <style name="SwitchButtonStyle">
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>

@@ -15,18 +15,24 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorTitle"
+
         android:theme="@style/AppTheme.AppBarOverlay"
         app:popupTheme="@style/AppTheme.PopupOverlay">
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="设置"
-            android:textColor="@color/white"
+            android:textColor="@color/colorTitle"
             android:textSize="19sp" />
     </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/colorTitle" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,7 +45,6 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical"
             android:padding="20dp">
-
 
             <LinearLayout
                 android:id="@+id/password_layout"
@@ -130,38 +135,37 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal">
 
-                    <TextView
-                        android:layout_margin="15dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/me_icon_individualization"
-                        android:drawablePadding="10dp"
-                        android:gravity="center_vertical"
-                        android:singleLine="true"
-                        android:text="发音切换"
-                        android:textColor="@color/meItemTextColor"
-                        android:textSize="@dimen/meTitleSize" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/me_icon_individualization"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="发音切换"
+                    android:textColor="@color/meItemTextColor"
+                    android:textSize="@dimen/meTitleSize" />
 
-                    <com.kyleduo.switchbutton.SwitchButton
-                        android:layout_margin="8dp"
-                        android:id="@+id/sb_text"
-                        style="@style/SwitchButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16dp"
-                        app:kswTextOff="En"
-                        app:kswTextOn="Zh" />
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/sb_text"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16dp"
+                    app:kswTextOff="En"
+                    app:kswTextOn="Zh" />
 
 
-                </LinearLayout>
+            </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/meDivider" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/meDivider" />
 
 
         </LinearLayout>

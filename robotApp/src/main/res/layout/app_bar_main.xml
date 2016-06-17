@@ -16,19 +16,24 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorTitle"
-            android:navigationIcon="@color/white"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/toolBar">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="设置"
-                android:textColor="@color/white"
+                android:text="首页"
+                android:textColor="@color/colorTitle"
                 android:textSize="19sp" />
         </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/colorTitle" />
     </android.support.design.widget.AppBarLayout>
+
+
 
     <include layout="@layout/content_main" />
 
@@ -39,6 +44,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:src="@drawable/me_loud"
-        app:background="@color/colorTitle"
         app:backgroundTint="@color/colorTitle" />
+
 </android.support.design.widget.CoordinatorLayout>

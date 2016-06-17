@@ -31,6 +31,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:src="@drawable/me_loud"
-        app:backgroundTint="@color/meTextColor" />
+        app:backgroundTint="@color/colorTitle" />
 
 </android.support.design.widget.CoordinatorLayout>
