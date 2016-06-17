@@ -5,5 +5,8 @@
         <item name="android:windowBackground">@drawable/me_logo_bg_white</item>
     </style>
 
+    <style name="toolBar">
+        <item name="colorControlNormal">#00BAFF</item>
+    </style>
 
 </resources>
