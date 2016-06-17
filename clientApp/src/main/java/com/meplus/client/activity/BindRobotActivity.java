@@ -62,7 +62,7 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
         EventUtils.register(this);
 
         mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setTitle("绑定机器人");
+        //mToolbar.setTitle("绑定机器人");
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -80,10 +80,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setTitle("首页");
+        mToolbar.setNavigationIcon(R.drawable.menu);
+
+//        getSupportActionBar().setTitle("");
+//        mToolbar.setNavigationIcon(R.drawable.menu);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawer.setDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();//注释掉,则会隐藏首页的toobarIcon
+
 
         mNavigationView.setNavigationItemSelectedListener(this);
 

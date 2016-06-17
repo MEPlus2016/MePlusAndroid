@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#00baff</color>
+    <color name="colorTitle">#00baff</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorTitle">#00BAFF</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="meTextColor">#0080FF</color>
+    <!--<color name="meTextColor">#0080FF</color>-->
+    <color name="meTextColor">#00000000</color>
+    <color name="mTextColor">#00baff</color>
     <color name="meDivider">#D0D0D0</color>
     <color name="meItemTextColor">#8E8E8E</color>
     <color name="meWhite">#FFFFFF</color>

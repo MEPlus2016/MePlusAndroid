@@ -36,7 +36,7 @@ import app.akexorcist.bluetotohspp.library.BluetoothSPP.BluetoothConnectionListe
 import app.akexorcist.bluetotohspp.library.BluetoothState;
 import hugo.weaving.DebugLog;
 
-public class BluetoothPresenter implements Handler.Callback{
+public class BluetoothPresenter implements Handler.Callback {
     private static final String TAG = BluetoothPresenter.class.getSimpleName();
     private final static boolean ENABLE = true;
     private final int PERCENT = 42;
@@ -215,28 +215,32 @@ public class BluetoothPresenter implements Handler.Callback{
         if (action.equals(Command.ACTION_UP)) {
             V1 = changeV * 3 / 2;
             V2 = changeV * 3 / 2;
+<<<<<<< HEAD
             Log.i("test","up"+changeV);
             if(V==210){
                 CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
                 byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
                 sendData(buffer);
             }
+=======
+            Log.i("test", "up" + changeV);
+>>>>>>> b9a4b07caeee8715ba8841cd50f2bb99ac57b9c8
         } else if (action.equals(Command.ACTION_DOWN)) {
             V1 = -changeV;
             V2 = -changeV;
-            Log.i("test","down"+changeV);
+            Log.i("test", "down" + changeV);
         } else if (action.equals(Command.ACTION_LEFT)) {
             V1 = -changeV / 2;
             V2 = changeV / 2;
-            Log.i("test","left"+changeV);
+            Log.i("test", "left" + changeV);
         } else if (action.equals(Command.ACTION_RIGHT)) {
             V1 = changeV / 2;
             V2 = -changeV / 2;
-            Log.i("right","right"+changeV);
+            Log.i("right", "right" + changeV);
         } else if (action.equals(Command.ACTION_STOP)) {
             V1 = 0;
             V2 = 0;
-            i=0;
+            i = 0;
         }
 
         V1H = (byte) (V1 >> 8);
@@ -359,13 +363,13 @@ public class BluetoothPresenter implements Handler.Callback{
     }
 
     int i = 0;
-    final int[] Vtime = {42,84,126,168,210};
+    final int[] Vtime = {42, 84, 126, 168, 210};
 
-    public int getV(){
+    public int getV() {
 
-        final int[] Vtime = {42,84,126,168,210};
+        final int[] Vtime = {42, 84, 126, 168, 210};
         mHandler = new Handler(this);
-        mHandler.sendEmptyMessageDelayed(1,500);
+        mHandler.sendEmptyMessageDelayed(1, 500);
         return V;
     }
 
@@ -373,15 +377,15 @@ public class BluetoothPresenter implements Handler.Callback{
     public boolean handleMessage(Message msg) {
 
         if (msg.what == 1) {
-            if(i<4) {
+            if (i < 4) {
                 i++;
                 V = Vtime[i];
-                Log.i("test",i+"*"+V+"@");
-                mHandler.sendEmptyMessageDelayed(1,500);
-            }else{
+                Log.i("test", i + "*" + V + "@");
+                mHandler.sendEmptyMessageDelayed(1, 500);
+            } else {
                 V = Vtime[4];
                 Log.i("test", i + "@@@" + V + "@@@");
-                mHandler.sendEmptyMessageDelayed(1,500);
+                mHandler.sendEmptyMessageDelayed(1, 500);
             }
         }
         return false;

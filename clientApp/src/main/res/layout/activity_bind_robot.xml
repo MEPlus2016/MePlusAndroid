@@ -13,9 +13,23 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/meWhite"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="绑定机器人"
+            android:textColor="@color/colorTitle"
+            android:textSize="19sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/mTextColor" />
 
     <View
         android:layout_width="wrap_content"
@@ -36,17 +50,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/password_selected"
+            android:drawableLeft="@drawable/icon_password_hilight"
             android:drawablePadding="10dp"
             android:hint="@string/me_robot_id"
             android:singleLine="true"
-            android:textColor="@color/meTextColor"
-            android:textColorHint="@color/meTextColor" />
+            android:textColor="@color/colorTitle"
+            android:textColorHint="@color/colorTitle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/meTextColor" />
+            android:background="@color/colorTitle" />
 
     </LinearLayout>
 

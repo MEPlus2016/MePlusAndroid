@@ -10,6 +10,7 @@
         android:layout_height="48dp"
         android:background="@color/white">
 
+
         <!--Back Button-->
 
         <ImageView
@@ -17,18 +18,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+
             android:layout_marginLeft="17dp"
             android:background="@color/white"
             android:src="@drawable/ic_key_navi_button_back" />
 
+
         <TextView
+            android:id="@+id/call_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/record_title"
+
             android:textColor="@color/colorTitle"
             android:textSize="18sp" />
+
+        <View
+
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
 
     </RelativeLayout>
 

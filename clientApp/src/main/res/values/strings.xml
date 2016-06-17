@@ -15,7 +15,7 @@
     <string name="me_edit_passwrod">修改密码</string>
     <string name="me_bind_robot">绑定机器人</string>
     <string name="me_robot_id">机器人ID</string>
-    <string name="me_scan_robot">扫描机器</string>
+    <string name="me_scan_robot">扫描机器人</string>
     <string name="me_bind_tip">请认真填写机器人ID或通过扫描的方式</string>
 
 </resources>
