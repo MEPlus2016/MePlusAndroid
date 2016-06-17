@@ -215,16 +215,14 @@ public class BluetoothPresenter implements Handler.Callback {
         if (action.equals(Command.ACTION_UP)) {
             V1 = changeV * 3 / 2;
             V2 = changeV * 3 / 2;
-<<<<<<< HEAD
             Log.i("test","up"+changeV);
             if(V==210){
                 CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
                 byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
                 sendData(buffer);
             }
-=======
             Log.i("test", "up" + changeV);
->>>>>>> b9a4b07caeee8715ba8841cd50f2bb99ac57b9c8
+
         } else if (action.equals(Command.ACTION_DOWN)) {
             V1 = -changeV;
             V2 = -changeV;

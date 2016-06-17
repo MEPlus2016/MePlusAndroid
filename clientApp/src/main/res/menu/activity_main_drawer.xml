@@ -3,11 +3,7 @@
 
     <item
         android:id="@+id/nav_home"
-<<<<<<< HEAD
-        android:icon="@drawable/me_icon_home"
-=======
         android:icon="@drawable/icon_home"
->>>>>>> b9a4b07caeee8715ba8841cd50f2bb99ac57b9c8
         android:title="@string/me_nav_home"
         />
     <item

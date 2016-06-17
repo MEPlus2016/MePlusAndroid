@@ -102,7 +102,7 @@ public class TestsActivity extends BaseActivity {
         mPubnubPresenter.subscribe(this, mChannel);
 
         mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setTitle("系统自检");
+        //mToolbar.setTitle("系统自检");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
