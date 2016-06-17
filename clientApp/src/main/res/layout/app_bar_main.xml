@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorTitle"
+            android:background="@color/meWhite"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:text="首页"
                 android:gravity="center"
-                android:textColor="@color/meWhite"
+                android:textColor="@color/colorTitle"
                 android:textSize="19sp" />
         </android.support.v7.widget.Toolbar>
 
