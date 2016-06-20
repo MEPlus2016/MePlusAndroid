@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_down_normal.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_down_select.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_left_normal.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_left_select.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_right_normal.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_right_select.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_up_normal.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/clientApp/src/main/res/drawable-xxhdpi/key_up_select.png" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
