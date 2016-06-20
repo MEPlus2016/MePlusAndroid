@@ -42,10 +42,11 @@ public class BluetoothPresenter implements Handler.Callback {
     private final int PERCENT = 42;
     private final int MAX = 500;
     private BluetoothSPP bt;
-
+    private byte BMS_Status;
     //change V
     private Handler mHandler;
     private int V = 0;
+    private byte CheckSum;
 
     public BluetoothPresenter(Context context) {
         if (!ENABLE) return;
@@ -170,7 +171,6 @@ public class BluetoothPresenter implements Handler.Callback {
     @DebugLog
     private boolean setEn(boolean enable) { //En：00-关闭自主避障，01-开启自主避障
         if (!ENABLE) return true;
-
         if (!isConnected()) {
             return false;
         }
@@ -194,6 +194,13 @@ public class BluetoothPresenter implements Handler.Callback {
         return true;
     }
 
+    private boolean interrupt() {
+        byte CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X15 + 0X01 + 0X00 + 0X00 + 0X00);
+        byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X15, 0X01, 0X00, 0X00, 0X00, CheckSum};
+        sendData(buffer);
+        return true;
+    }
+
     @DebugLog
     public boolean sendDirection(String action) {
         if (!ENABLE) return true;
@@ -210,19 +217,15 @@ public class BluetoothPresenter implements Handler.Callback {
         byte V1L = 0;
         byte V2H = 0;
         byte V2L = 0;
-        byte CheckSum;
+        if (BMS_Status == 3) {
+            interrupt();
+        } else {
+        }
 
         if (action.equals(Command.ACTION_UP)) {
             V1 = changeV * 3 / 2;
             V2 = changeV * 3 / 2;
-            Log.i("test","up"+changeV);
-            if(V==210){
-                CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
-                byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
-                sendData(buffer);
-            }
             Log.i("test", "up" + changeV);
-
         } else if (action.equals(Command.ACTION_DOWN)) {
             V1 = -changeV;
             V2 = -changeV;
@@ -248,7 +251,6 @@ public class BluetoothPresenter implements Handler.Callback {
 
         CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
         byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
-
         sendData(buffer);
         return true;
     }
@@ -273,7 +275,7 @@ public class BluetoothPresenter implements Handler.Callback {
 //                Bit 5	保留
 //                Bit 6	保留
 //                Bit 7	保留
-                final byte BMS_Status = data[3];
+                BMS_Status = data[3];
 //                Bit 0	电压报警
 //                Bit 1	电压错误
 //                Bit 2	电流报警
@@ -337,6 +339,7 @@ public class BluetoothPresenter implements Handler.Callback {
         }
 
     }
+
 
     @DebugLog
     private void sendData(byte[] buffer) {

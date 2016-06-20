@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean mBluetoothSupport = true;
     int fd;
     int cmd;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -320,44 +321,36 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     }
                     break;
                 case Command.ZERO:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 0;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.ONE:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 1;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.TWO:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 3;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.THREE:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 4;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.FOUR:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 5;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.FIVE:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 6;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.SIX:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
+                    camera();
                     cmd = 7;
-                    FireflyGPIO.ioctl(fd, cmd);
                     break;
                 case Command.SEVEN:
-                    fd = FireflyGPIO.open("/dev/firefly_gpio");
                     cmd = 8;
-                    FireflyGPIO.ioctl(fd, cmd);
+                    camera();
                     break;
                 case Command.ACTION_CALL:
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
@@ -369,6 +362,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     if (!mBTPresenter.sendGoHome()) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));
                     }
+                    goHome();
                     break;
                 default:
                     break;
@@ -376,6 +370,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         }
     }
+
+    private void camera() {
+        fd = FireflyGPIO.open("/dev/firefly_gpio");
+        FireflyGPIO.ioctl(fd, cmd);
+    }
+
 
     @Override
     public void onBackPressed() {
