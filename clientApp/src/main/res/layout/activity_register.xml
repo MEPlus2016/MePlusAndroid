@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/icon_email_sign_up_hilight"
+                android:drawableLeft="@drawable/icon_email_sign_up_hilight0"
                 android:drawablePadding="10dp"
                 android:hint="@string/me_email"
                 android:singleLine="true"
