@@ -1,11 +1,13 @@
 package com.meplus.robot.activity;
 
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -127,7 +129,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // keep screen on - turned on
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Context context = getApplicationContext();
         // bluetooth
         mBTPresenter = new BluetoothPresenter(context);
@@ -402,6 +404,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     camera();
                     break;
                 case Command.ACTION_CALL:
+                    //点亮屏幕
+                    wakeUp();
+
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         AVOSRobot robot = MPApplication.getsInstance().getRobot();
                         startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
@@ -543,5 +548,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             stopUnderstand();
         }
         updateSpeechState();
+    }
+
+    public void wakeUp(){
+        //获取电源管理器对象
+        PowerManager pm=(PowerManager) getSystemService(Context.POWER_SERVICE);
+        //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
+        //点亮屏幕
+        wl.acquire();
+        //得到键盘锁管理器对象
+        KeyguardManager km= (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        //参数是LogCat里用的Tag
+        KeyguardManager.KeyguardLock kl = km.newKeyguardLock("unLock");
+        //解锁
+        kl.disableKeyguard();
+        //释放
+        wl.release();
     }
 }

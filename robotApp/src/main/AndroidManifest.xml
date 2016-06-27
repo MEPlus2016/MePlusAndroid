@@ -5,6 +5,13 @@
 
     <uses-sdk tools:overrideLibrary="com.facebook.shimmer" />
 
+    //add wakeup
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+
+    //开机自启动
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+
     <application
         android:name=".app.MPApplication"
         android:allowBackup="true"
@@ -61,6 +68,14 @@
         <activity
             android:name="com.meplus.avos.activity.FeedbackActivity"
             android:screenOrientation="landscape" />
+
+        //开机自启动
+        <receiver android:name=".BroadcastReceiver.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
 </application>
 
 </manifest>
