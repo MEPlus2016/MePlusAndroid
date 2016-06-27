@@ -13,7 +13,15 @@ public class BluetoothEvent extends BaseEvent {
     private boolean mConnected;
     private int dis1, dis2, dis3, dis4, dis5;
     private byte mSOC;
+    private byte BMS;
 
+    public byte getBMS() {
+        return BMS;
+    }
+
+    public void setBMS(byte BMS) {
+        this.BMS = BMS;
+    }
 
     public int getDis1() {
         return dis1;

@@ -113,7 +113,6 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
         user.setPassword(password);
         user.setUserId(userId);
         user.setUUId(UUIDUtils.getUUID(this));
-
         user.signUpInBackground(new SignUpCallback() {
             public void done(AVException e) {
                 if (e == null) {
@@ -125,6 +124,5 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                 }
             }
         });
-
     }
 }

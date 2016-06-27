@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.SaveCallback;
 import com.meplus.activity.BaseActivity;
 import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.events.EventUtils;
@@ -33,6 +36,7 @@ import com.meplus.robot.R;
 import com.meplus.robot.app.MPApplication;
 import com.meplus.robot.events.BluetoothEvent;
 import com.meplus.robot.presenters.BluetoothPresenter;
+import com.meplus.robot.utils.UUIDUtils;
 import com.meplus.robot.viewholder.NavHeaderViewHolder;
 import com.meplus.robot.viewholder.QRViewHolder;
 import com.meplus.speech.Constants;
@@ -81,6 +85,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.bms_state)
     ImageButton mBMSState;
 
+
     private NavHeaderViewHolder mHeaderHolder;
 
     private BluetoothPresenter mBTPresenter;
@@ -92,8 +97,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean mOpenSpeech = false;
     private Handler mSpeechHandler = new Handler();
     private boolean mBluetoothSupport = true;
-    int fd;
-    int cmd;
+    private int fd;
+    private int cmd;
+    private int index;
+    byte bms;
+ //   private Handler handler;
+
+//    private Handler handler = new Handler();
+//    private Runnable task = new Runnable() {
+//        public void run() {
+//            // TODOAuto-generated method stub
+//            handler.postDelayed(this, 600000);//设置延迟时间，此处是600秒
+//            //需要执行的代码
+//            AVOSRobot robot = new AVOSRobot();
+//            robot.setBattary(index);
+//            robot.setUUId(UUIDUtils.getUUID(MainActivity.this));
+//            robot.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(AVException e) {
+//                    if (e == null) {
+//                        Log.d("saved", "success!");
+//                    }
+//                }
+//            });
+//        }
+//    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,6 +176,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateBluetoothState(false);
         updateSOC(0);
         toggleSpeech(mOpenSpeech);
+
+        //add soc
+        //   handler = new Handler(this);
+        //   handler.sendEmptyMessageDelayed(3,50000);
     }
 
     @Override
@@ -215,6 +247,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     mUnderstandPersenter.startUnderstanding();
                 }
                 return true;
+            case 3:
+                final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                //updateSOC(index);//更新index
+                robot.setBattary(index);
+                robot.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null) {
+                            Log.d("saved", "success!");
+                        }
+                    }
+                });
+
+                //   handler.sendEmptyMessageDelayed(,50000);
+
             default:
                 break;
         }
@@ -274,7 +321,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         data.putString("question", question);
         data.putString("answer", answer);
         msg.setData(data);
-
         mSpeechHandler.sendMessageDelayed(msg, START_SPEEKING_DELAY);
     }
 
@@ -294,8 +340,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (event.ok()) {
             if (event.isConnected()) {
                 final int soc = event.getSOC();
+                bms = event.getBMS();
                 if (soc > 0) {// 发送电量的数据
                     updateSOC(soc);
+
+                    //  handler.post(task);
                 } else { // 只发送连接的数据
                     mBTPresenter.sendDefault();// 自主避障功能使能（默认关闭）
                 }
@@ -445,11 +494,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }).show();
     }
 
+    //判断电量及充电状态，并根据电量显示
     private void updateSOC(int soc) {
-        int index = soc / 10 + 1;
+        index = soc / 10 + 1;
         index = index > 10 ? 10 : index;
         String resName = String.format("battery%1$d", index * 10);
-        mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+        String chargeName=String.format("charge%1$d",index * 10);
+      //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+        if (bms==3){
+            mBMSState.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
+        } else {
+            mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+        }
     }
 
     private void updateBluetoothState(boolean state) {
@@ -460,7 +516,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mQuestText.setText("");
         mAnswerText.setText("");
         mFaceImage.setImageResource(R.drawable.hello_world);
-
         final Message msg = mSpeechHandler.obtainMessage();
         msg.what = START_UNDERSTANDING;
         mSpeechHandler.sendMessageDelayed(msg, START_UNDERSTANDING_DELAY);
@@ -489,5 +544,4 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         updateSpeechState();
     }
-
 }

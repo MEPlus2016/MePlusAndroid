@@ -15,6 +15,15 @@ public class AVOSRobot extends AVObject {
     private final static String KEY_ROBOT_ID = "robotId"; // Int
     private final static String KEY_ROBOT_NAME = "robotName"; // String
     private final static String KEY_ROBOT_DESCRIPTION = "robotDescription"; // String
+    private final static String KEY_ROBOT_BATTARY = "robotbattary";//Int
+
+    public int getBattary() {
+        return getInt(KEY_ROBOT_BATTARY);
+    }
+
+    public void setBattary(int battary) {
+        put(KEY_ROBOT_BATTARY, battary);
+    }
 
     public String getUUId() {
         return getString(KEY_ROBOT_UUID);

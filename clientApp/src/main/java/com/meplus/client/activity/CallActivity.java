@@ -1,12 +1,16 @@
 package com.meplus.client.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.meplus.activity.VideoActivity;
+import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
 import com.meplus.events.EventUtils;
@@ -22,9 +26,7 @@ import butterknife.OnTouch;
  */
 public class CallActivity extends VideoActivity {
     private static final String TAG = CallActivity.class.getSimpleName();
-
     boolean isButton = true;
-
     @Bind(R.id.zero)
     ImageButton zero;
 
@@ -49,19 +51,44 @@ public class CallActivity extends VideoActivity {
     @Bind(R.id.seven)
     ImageButton seven;
 
+    @Bind(R.id.battery)
+    ImageButton battery;
+
+    private Handler handler = new Handler();
+    private Runnable task = new Runnable() {
+        public void run() {
+            // TODOAuto-generated method stub
+            handler.postDelayed(this, 60 * 1000);//设置延迟时间，此处是60秒
+            AVOSRobot robot=new AVOSRobot();
+
+            int soc = robot.getBattary();
+            Log.i("battary","soc");
+            updateSOC(soc);
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         ButterKnife.bind(this);
+        updateSOC(0);
+
+        handler.postDelayed(task, 60*1000);//延迟调用
     }
+
+    private void updateSOC(int index) {
+
+        String resName = String.format("battery%1$d", index * 10);
+        battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+    }
+
 
     @Override
     public int getContentView() {
         return R.layout.activity_call;
     }
 
-
-    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button,R.id.zero, R.id.one, R.id.two, R.id.three,R.id.four, R.id.five, R.id.six, R.id.seven,R.id.battery})
+    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button, R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six, R.id.seven, R.id.battery})
     public boolean onTouch(View view, MotionEvent event) {
         final int action = event.getAction();
         final int id = view.getId();
@@ -93,7 +120,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.ACTION_DOWN;
                 break;
             case R.id.zero:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(false);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -106,7 +133,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.ZERO;
                 break;
             case R.id.one:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(false);
                     two.setEnabled(true);
@@ -119,7 +146,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.ONE;
                 break;
             case R.id.two:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(false);
@@ -128,10 +155,11 @@ public class CallActivity extends VideoActivity {
                     five.setEnabled(true);
                     six.setEnabled(true);
                     seven.setEnabled(true);
-                }                message = Command.TWO;
+                }
+                message = Command.TWO;
                 break;
             case R.id.three:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -144,7 +172,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.THREE;
                 break;
             case R.id.four:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -157,7 +185,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.FOUR;
                 break;
             case R.id.five:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -170,7 +198,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.FIVE;
                 break;
             case R.id.six:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -183,7 +211,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.SIX;
                 break;
             case R.id.seven:
-                if(isButton) {
+                if (isButton) {
                     zero.setEnabled(true);
                     one.setEnabled(true);
                     two.setEnabled(true);
@@ -196,7 +224,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.SEVEN;
                 break;
             case R.id.battery:
-                message=Command.ACTION_HOME;
+                message = Command.ACTION_HOME;
                 break;
         }
         return postEvent(message);

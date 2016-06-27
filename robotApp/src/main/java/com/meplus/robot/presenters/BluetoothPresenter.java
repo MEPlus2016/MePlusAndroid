@@ -329,6 +329,7 @@ public class BluetoothPresenter implements Handler.Callback {
                 final BluetoothEvent event = new BluetoothEvent();
                 event.setConnected(isConnected());
                 event.setSOC(SOC);
+                event.setBMS(BMS_Status);
                 event.setDis1(U1_Dis);
                 event.setDis2(U2_Dis);
                 event.setDis3(U3_Dis);
