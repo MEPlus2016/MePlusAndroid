@@ -231,8 +231,8 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 //        } else if (id == R.id.evaluation_star_five) {
 //            setupStars(5);
 //        }
-        else if (id == R.id.channel_drawer_button) {             //open or close drawer
-//        else if (id == R.id.channel_drawer_button0) {             //open or close drawer
+//        else if (id == R.id.channel_drawer_button) {             //open or close drawer
+        else if (id == R.id.channel_drawer_button0) {             //open or close drawer
             if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                 mDrawerLayout.closeDrawer(GravityCompat.END);
             } else {
@@ -375,8 +375,8 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         findViewById(R.id.wrapper_action_voice_calling).setOnClickListener(getViewClickListener());
         findViewById(R.id.action_hung_up).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_back).setOnClickListener(getViewClickListener());
-        findViewById(R.id.channel_drawer_button).setOnClickListener(getViewClickListener());
-//        findViewById(R.id.channel_drawer_button0).setOnClickListener(getViewClickListener());
+//        findViewById(R.id.channel_drawer_button).setOnClickListener(getViewClickListener());
+        findViewById(R.id.channel_drawer_button0).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_profile).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_record).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_about).setOnClickListener(getViewClickListener());

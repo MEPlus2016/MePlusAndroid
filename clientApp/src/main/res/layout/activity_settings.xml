@@ -162,6 +162,17 @@
             android:textSize="@dimen/meTextSize"
             android:textStyle="bold" />
 
+        <!--<TextView
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:background="@drawable/quit"
+            android:gravity="center"
+            android:textColor="@color/meWhite"
+            android:textSize="@dimen/meTextSize"
+            android:textStyle="bold" />-->
+
 
     </LinearLayout>
 </LinearLayout>

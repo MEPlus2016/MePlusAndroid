@@ -258,9 +258,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 if (flag) {
                                     mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
                                     //finish();
-                                } else
-
-                                {
+                                } else {
                                     com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人正在被连接，请稍后再试！");
                                     //finish();
                                 }
