@@ -98,14 +98,12 @@ public class CallActivity extends VideoActivity {
         }
     };
 
-
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         ButterKnife.bind(this);
         Log.i("fffff", "aaaaaa");
         updateSOC(0);
-
     }
 
     private void updateSOC(int index) {
@@ -137,7 +135,6 @@ public class CallActivity extends VideoActivity {
                 Log.i("111",bms+"@@@");
             }
         });
-
     }*/
 
     @Override
