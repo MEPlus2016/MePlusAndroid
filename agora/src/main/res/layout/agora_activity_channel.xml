@@ -177,6 +177,21 @@
 
             </LinearLayout>
 
+            //add
+            <RelativeLayout
+                android:id="@+id/channel_drawer_button0"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_nav_menu" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <!--视频通话 语音通话切换部分-->
@@ -302,6 +317,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginLeft="80dp"
                 android:orientation="horizontal" />
 
             <RelativeLayout
@@ -617,11 +633,13 @@
 
                 <!--Profile-->
 
+                <!--android:background="@color/drawer_blue"-->
+
                 <RelativeLayout
                     android:id="@+id/channel_drawer_profile"
                     android:layout_width="match_parent"
                     android:layout_height="77dp"
-                    android:background="@color/drawer_blue"
+                    android:background="@color/colorPrimary"
                     android:paddingLeft="27dp">
 
                     <TextView
@@ -668,7 +686,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="43dp"
                     android:layout_below="@+id/channel_drawer_profile"
-                    android:background="@color/drawer_blue"
+                    android:background="@color/colorPrimary"
                     android:paddingLeft="27dp">
 
                     <TextView

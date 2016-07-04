@@ -20,6 +20,7 @@ public class Command {
     public final static String FIVE = "five";
     public final static String SIX = "six";
     public final static String SEVEN = "seven";
+    public final static String NINE = "nine";
     public final static String ACTION_HOME = "home";
 
     public String sender;

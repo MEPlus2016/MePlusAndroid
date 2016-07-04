@@ -11,11 +11,31 @@ import java.util.List;
 public class AVOSRobot extends AVObject {
     public static final Creator CREATOR = AVObjectCreator.instance;
 
-    private final static String KEY_ROBOT_UUID = "robotUUID"; // String
+//    private final static String KEY_ROBOT_UUID = "robotUUID"; // String
+    public final static String KEY_ROBOT_UUID = "robotUUID"; // String
+
     private final static String KEY_ROBOT_ID = "robotId"; // Int
     private final static String KEY_ROBOT_NAME = "robotName"; // String
     private final static String KEY_ROBOT_DESCRIPTION = "robotDescription"; // String
     private final static String KEY_ROBOT_BATTARY = "robotbattary";//Int
+    private final static String KEY_ROBOT_FLAG = "flag";
+    private final static String KEY_ROBOT_BMS = "bms";
+    private final static String KEY_ROBOT_CALL = "call";
+
+    public boolean getRobotCall(){return getBoolean(KEY_ROBOT_CALL);}
+    public void setRobotCall(boolean call){put(KEY_ROBOT_CALL,call);}
+
+    public int getRobotBms(){return getInt(KEY_ROBOT_BMS);}
+    public void setKeyRobotBms(int bms) {
+        put(KEY_ROBOT_BMS, bms);
+    }
+
+    public  int getKeyRobotFlag() {
+        return getInt(KEY_ROBOT_FLAG);
+    }
+    public void setKeyRobotFlag(int flag) {
+        put(KEY_ROBOT_FLAG, flag);
+    }
 
     public int getBattary() {
         return getInt(KEY_ROBOT_BATTARY);
@@ -56,6 +76,7 @@ public class AVOSRobot extends AVObject {
     public void setRobotDescription(String robotDescription) {
         put(KEY_ROBOT_DESCRIPTION, robotDescription);
     }
+
 
     public static void registerSubclass() {
         AVObject.registerSubclass(AVOSRobot.class);

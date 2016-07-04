@@ -232,6 +232,7 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 //            setupStars(5);
 //        }
         else if (id == R.id.channel_drawer_button) {             //open or close drawer
+//        else if (id == R.id.channel_drawer_button0) {             //open or close drawer
             if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                 mDrawerLayout.closeDrawer(GravityCompat.END);
             } else {
@@ -247,12 +248,12 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
             ((AgoraApplication) getApplication()).setChannelTime(time);
             Intent i = new Intent(ChannelActivity.this, RecordActivity.class);
             startActivity(i);
-        } else if (id == R.id.channel_drawer_about) {            //go to About
+        } /*else if (id == R.id.channel_drawer_about) {            //go to About,去除关于声网的界面
             mDrawerLayout.closeDrawer(GravityCompat.END);
             ((AgoraApplication) getApplication()).setChannelTime(time);
             Intent i = new Intent(ChannelActivity.this, AboutActivity.class);
-            startActivity(i);
-        } else {
+            startActivity(i);}*/
+        else {
             super.onUserInteraction(view);
         }
     }
@@ -375,6 +376,7 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         findViewById(R.id.action_hung_up).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_back).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_button).setOnClickListener(getViewClickListener());
+//        findViewById(R.id.channel_drawer_button0).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_profile).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_record).setOnClickListener(getViewClickListener());
         findViewById(R.id.channel_drawer_about).setOnClickListener(getViewClickListener());

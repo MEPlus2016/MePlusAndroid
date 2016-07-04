@@ -47,7 +47,7 @@ public class BluetoothPresenter implements Handler.Callback {
     private Handler mHandler;
     private int V = 0;
     private byte CheckSum;
-
+    private int Voltage;
     public BluetoothPresenter(Context context) {
         if (!ENABLE) return;
         bt = new BluetoothSPP(context);
@@ -325,8 +325,9 @@ public class BluetoothPresenter implements Handler.Callback {
                 Log.i(TAG, info);
                 final String dis = String.format("dis: %1$d,%2$d,%3$d,%4$d,%5$d", U1_Dis, U2_Dis, U3_Dis, U4_Dis, U5_Dis);
                 Log.i(TAG, dis);
-
+                Voltage=(int)Voltage_H*256+Voltage_L;
                 final BluetoothEvent event = new BluetoothEvent();
+                event.setVoltage(Voltage);
                 event.setConnected(isConnected());
                 event.setSOC(SOC);
                 event.setBMS(BMS_Status);

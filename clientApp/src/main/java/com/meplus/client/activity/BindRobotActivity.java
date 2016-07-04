@@ -145,6 +145,11 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBindEvent(){
+
+    }
+
     @DebugLog
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSaveEvent(SaveEvent<AVOSRobot> event) {

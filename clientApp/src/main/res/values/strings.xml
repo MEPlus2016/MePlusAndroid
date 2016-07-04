@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MePlusClient</string>
+    <string name="app_name">MePlus</string>
 
     <string name="me_phone_number">手机号</string>
     <string name="me_register">注册</string>

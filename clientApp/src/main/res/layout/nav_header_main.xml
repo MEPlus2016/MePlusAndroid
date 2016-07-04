@@ -30,6 +30,7 @@
         android:drawableLeft="@drawable/icon_email"
         android:textColor="@color/meWhite"
         android:textSize="@dimen/meTextSize"
+        android:singleLine="true"
         android:layout_marginTop="8dp"/>
 
     <TextView

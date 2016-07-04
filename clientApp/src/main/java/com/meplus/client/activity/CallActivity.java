@@ -3,22 +3,32 @@ package com.meplus.client.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.GravityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.SaveCallback;
 import com.meplus.activity.VideoActivity;
 import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
+import com.meplus.client.app.MPApplication;
 import com.meplus.events.EventUtils;
 import com.meplus.punub.Command;
 import com.meplus.punub.CommandEvent;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTouch;
 
 /**
@@ -30,65 +40,130 @@ public class CallActivity extends VideoActivity {
     @Bind(R.id.zero)
     ImageButton zero;
 
-    @Bind(R.id.one)
+   /* @Bind(R.id.one)
     ImageButton one;
 
     @Bind(R.id.two)
-    ImageButton two;
+    ImageButton two;*/
 
     @Bind(R.id.three)
     ImageButton three;
 
-    @Bind(R.id.four)
+   /* @Bind(R.id.four)
     ImageButton four;
 
     @Bind(R.id.five)
-    ImageButton five;
+    ImageButton five;*/
 
     @Bind(R.id.six)
     ImageButton six;
 
+    /*@Bind(R.id.seven)
+    ImageButton seven;*/
+
     @Bind(R.id.seven)
     ImageButton seven;
+
+    @Bind(R.id.img)
+    ImageView img;
 
     @Bind(R.id.battery)
     ImageButton battery;
 
-    private Handler handler = new Handler();
-    private Runnable task = new Runnable() {
-        public void run() {
-            // TODOAuto-generated method stub
-            handler.postDelayed(this, 60 * 1000);//设置延迟时间，此处是60秒
-            AVOSRobot robot=new AVOSRobot();
+    //add control
+    @Bind(R.id.control)
+    FrameLayout control;
 
-            int soc = robot.getBattary();
-            Log.i("battary","soc");
-            updateSOC(soc);
+    int bms;
+    AVOSRobot robot;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            // Handler处理消息
+            if (msg.what == 1) {
+                        bms=robot.getInt("bms");
+                int flag = robot.getKeyRobotFlag();
+           //     int bms=robot.getRobotBms();
+
+                String resName = String.format("battery%1$d",flag * 10);
+                String chargeName = String.format("charge%1$d", flag * 10);
+                //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+                if (bms == 3) {
+                    battery.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
+                } else {
+                    battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+                }
+            }
         }
     };
+
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         ButterKnife.bind(this);
+        Log.i("fffff", "aaaaaa");
         updateSOC(0);
 
-        handler.postDelayed(task, 60*1000);//延迟调用
     }
 
     private void updateSOC(int index) {
-
         String resName = String.format("battery%1$d", index * 10);
-        battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+//        battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
     }
 
+   /* @Override
+    protected void onResume() {
+        super.onResume();
+       robot = MPApplication.getsInstance().getRobot();
+        robot.setFetchWhenSave(true);
+        Timer timer = new Timer();
+        // 创建一个TimerTask
+        // TimerTask是个抽象类,实现了Runnable接口，所以TimerTask就是一个子线程
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 1;
+                handler.sendMessage(msg);
+            }
+        };
+        timer.schedule(timerTask, 0, 1000);// 3秒后开始倒计时，倒计时间隔为60秒
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                bms = robot.getInt("bms");
+                Log.i("111",bms+"@@@");
+            }
+        });
+
+    }*/
 
     @Override
     public int getContentView() {
         return R.layout.activity_call;
     }
 
-    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button, R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six, R.id.seven, R.id.battery})
+    //add onclick 侧拉菜单
+   /* @OnClick({R.id.channel_drawer_button0})
+    public void onclick(View view){
+        switch (view.getId()){
+            case R.id.channel_drawer_button0:
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    control.setVisibility(View.INVISIBLE);
+                    battery.setVisibility(View.INVISIBLE);
+                    mDrawerLayout.closeDrawer(GravityCompat.END);
+                } else {
+                    control.setVisibility(View.VISIBLE);
+                    battery.setVisibility(View.VISIBLE);
+                    mDrawerLayout.openDrawer(GravityCompat.END);
+                }
+        }
+    }*/
+
+    //    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button, R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six, R.id.seven, R.id.battery})
+    @OnTouch({R.id.left_button, R.id.up_button, R.id.right_button, R.id.down_button, R.id.zero, R.id.three, R.id.six, R.id.seven, R.id.battery})
     public boolean onTouch(View view, MotionEvent event) {
         final int action = event.getAction();
         final int id = view.getId();
@@ -121,107 +196,88 @@ public class CallActivity extends VideoActivity {
                 break;
             case R.id.zero:
                 if (isButton) {
-                    zero.setEnabled(false);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
+                    zero.setEnabled(false);//正常
+//                    one.setEnabled(true);
+//                    two.setEnabled(true);
                     three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
+//                    four.setEnabled(true);
+//                    five.setEnabled(true);
                     six.setEnabled(true);
+//                    seven.setEnabled(true);
+//                    eight.setEnabled(false);
                     seven.setEnabled(true);
+                    img.setEnabled(false);
                 }
-                message = Command.ZERO;
-                break;
-            case R.id.one:
-                if (isButton) {
-                    zero.setEnabled(true);
-                    one.setEnabled(false);
-                    two.setEnabled(true);
-                    three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
-                    six.setEnabled(true);
-                    seven.setEnabled(true);
-                }
-                message = Command.ONE;
-                break;
-            case R.id.two:
-                if (isButton) {
-                    zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(false);
-                    three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
-                    six.setEnabled(true);
-                    seven.setEnabled(true);
-                }
-                message = Command.TWO;
+//                message = Command.ZERO;
+                message = Command.SEVEN;
                 break;
             case R.id.three:
                 if (isButton) {
                     zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
+//                    one.setEnabled(true);
+//                    two.setEnabled(true);
                     three.setEnabled(false);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
+//                    four.setEnabled(true);
+//                    five.setEnabled(true);
                     six.setEnabled(true);
+//                    seven.setEnabled(true);
+//                    eight.setEnabled(false);
                     seven.setEnabled(true);
+                    img.setEnabled(false);
                 }
-                message = Command.THREE;
-                break;
-            case R.id.four:
-                if (isButton) {
-                    zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
-                    three.setEnabled(true);
-                    four.setEnabled(false);
-                    five.setEnabled(true);
-                    six.setEnabled(true);
-                    seven.setEnabled(true);
-                }
-                message = Command.FOUR;
-                break;
-            case R.id.five:
-                if (isButton) {
-                    zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
-                    three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(false);
-                    six.setEnabled(true);
-                    seven.setEnabled(true);
-                }
+//                message = Command.THREE;
                 message = Command.FIVE;
                 break;
+
             case R.id.six:
                 if (isButton) {
                     zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
+//                    one.setEnabled(true);
+//                    two.setEnabled(true);
                     three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
+//                    four.setEnabled(true);
+//                    five.setEnabled(true);
                     six.setEnabled(false);
+//                    seven.setEnabled(true);
+//                    eight.setEnabled(false);
                     seven.setEnabled(true);
+                    img.setEnabled(false);
                 }
-                message = Command.SIX;
+//                message = Command.SIX;
+                message = Command.THREE;
                 break;
+            /*case R.id.seven:
+                if (isButton) {
+                    zero.setEnabled(true);
+//                    one.setEnabled(true);
+//                    two.setEnabled(true);
+                    three.setEnabled(true);
+//                    four.setEnabled(true);
+//                    five.setEnabled(true);
+                    six.setEnabled(true);
+//                    seven.setEnabled(false);
+//                    eight.setEnabled(false);
+                }
+//                message = Command.SEVEN;
+                message = Command.ZERO;
+                break;*/
+
             case R.id.seven:
                 if (isButton) {
                     zero.setEnabled(true);
-                    one.setEnabled(true);
-                    two.setEnabled(true);
+//                    one.setEnabled(true);
+//                    two.setEnabled(true);
                     three.setEnabled(true);
-                    four.setEnabled(true);
-                    five.setEnabled(true);
+//                    four.setEnabled(true);
+//                    five.setEnabled(true);
                     six.setEnabled(true);
+//                    seven.setEnabled(true);
+//                    eight.setEnabled(false);
                     seven.setEnabled(false);
+                    img.setEnabled(false);
                 }
-                message = Command.SEVEN;
+//                message = Command.SIX;
+                message = Command.ZERO;
                 break;
             case R.id.battery:
                 message = Command.ACTION_HOME;

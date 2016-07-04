@@ -81,7 +81,8 @@
     <string name="channel_change">切换摄像头</string>
     <string name="channel_video">视频通话</string>
     <string name="channel_voice">语音通话</string>
-    <string name="channel_prepare">房间等待好友加入</string>
+    <!--<string name="channel_prepare">房间等待好友加入</string>-->
+    <string name="channel_prepare">正在等待穿越时空</string>
     <string name="channel_join">&#160;进入房间</string>
     <string name="channel_leave">&#160;离开房间</string>
     <string name="channel_mute_video">&#160;关闭了视频</string>

@@ -11,7 +11,21 @@ public class BluetoothEvent extends BaseEvent {
     }
 
     private boolean mConnected;
-    private int dis1, dis2, dis3, dis4, dis5;
+    private int dis1;
+    private int dis2;
+    private int dis3;
+    private int dis4;
+    private int dis5;
+
+    public int getVoltage() {
+        return Voltage;
+    }
+
+    public void setVoltage(int voltage) {
+        Voltage = voltage;
+    }
+
+    private int Voltage;
     private byte mSOC;
     private byte BMS;
 

@@ -1,11 +1,17 @@
 package com.meplus.avos.objects;
 
+import android.util.Log;
+
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SaveCallback;
+import com.meplus.events.EventUtils;
+import com.meplus.events.bindEvent;
 
 import java.util.List;
 
@@ -17,7 +23,9 @@ public class AVOSUser extends AVUser {
     public static final Creator CREATOR = AVObjectCreator.instance;
 
     private final static String KEY_USER_UUID = "userUUID"; // String
-    private final static String KEY_ROBOT_UUID = "robotUUID"; // String
+//    private final static String KEY_ROBOT_UUID = "robotUUID"; // String
+    public final static String KEY_ROBOT_UUID = "robotUUID"; // String
+
     private final static String KEY_USER_ID = "userIntId"; // Int
     private final static String RELATION_ROBOTS = "robots";
 
@@ -49,11 +57,38 @@ public class AVOSUser extends AVUser {
         AVObject.registerSubclass(AVOSRobot.class);
     }
 
-    public void addRobot(AVOSRobot avosRobot) throws AVException {
-        AVRelation<AVOSRobot> relation = getRelation(AVOSUser.RELATION_ROBOTS);
+    public void addRobot(final AVOSRobot avosRobot) throws AVException {
+        /*AVRelation<AVOSRobot> relation = getRelation(AVOSUser.RELATION_ROBOTS);
         relation.add(avosRobot);
         setRobotUUId(avosRobot.getUUId());
-        save();
+        save();*/
+
+        //add
+        final AVRelation<AVOSRobot> relation = getRelation(AVOSUser.RELATION_ROBOTS);
+        String uuid = avosRobot.getUUId();
+        AVQuery<AVOSUser> query = new AVQuery<AVOSUser>("_User");
+        query.whereEqualTo(KEY_ROBOT_UUID,uuid);
+        query.findInBackground(new FindCallback<AVOSUser>() {
+            @Override
+            public void done(List<AVOSUser> list, AVException e) {
+                if(e == null){
+                    if(list.size()==0){
+                        relation.add(avosRobot);
+                        setRobotUUId(avosRobot.getUUId());
+//                        save();
+                        saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                Log.i("save", "save success");
+                            }
+                        });
+                    }else{
+                        EventUtils.postEvent(new bindEvent());
+                    }
+                }
+            }
+        });
+
     }
 
     public List<AVOSRobot> queryRobotByUUID(String uuid) throws AVException {

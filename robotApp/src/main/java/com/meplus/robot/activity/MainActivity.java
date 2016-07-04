@@ -52,6 +52,9 @@ import com.meplus.utils.IntentUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -102,10 +105,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int fd;
     private int cmd;
     private int index;
-    byte bms;
- //   private Handler handler;
+    private byte bms;
+    private int V;
+    Timer timer;
+    int bm;
 
-//    private Handler handler = new Handler();
+    final AVOSRobot  robot = MPApplication.getsInstance().getRobot();
+
+
+//
+    //   private Handler handler;
+
+    //    private Handler handler = new Handler();
 //    private Runnable task = new Runnable() {
 //        public void run() {
 //            // TODOAuto-generated method stub
@@ -124,6 +135,32 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //            });
 //        }
 //    };
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            Log.d("debug", "handleMessage方法所在的线程："
+                    + Thread.currentThread().getName());
+
+            // Handler处理消息
+            if (msg.what == 1) {
+                AVOSRobot robot=MPApplication.getsInstance().getRobot();
+                robot.setKeyRobotFlag(index);
+                robot.setKeyRobotBms(bm);
+                Log.i("test@@",bm+"@@@");
+                robot.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        Log.d("saved", "success!");
+                    }
+                }
+            });
+            }
+        }
+    };
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -182,7 +219,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //add soc
         //   handler = new Handler(this);
         //   handler.sendEmptyMessageDelayed(3,50000);
+        timer = new Timer();
+        // 创建一个TimerTask
+        // TimerTask是个抽象类,实现了Runnable接口，所以TimerTask就是一个子线程
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 1;
+                handler.sendMessage(msg);
+            }
+        };
+        timer.schedule(timerTask, 3000, 60000);// 3秒后开始倒计时，倒计时间隔为1秒
     }
+
+
+
 
     @Override
     public void onResume() {
@@ -190,6 +242,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (mOpenSpeech) {
             startUnderstand();
         }
+
+        //一旦回到主界面，就把flag变为true
+        robot.setRobotCall(true);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                Log.i("call", "flag存储成功qq");
+            }
+        });
     }
 
     @Override
@@ -341,11 +402,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onBluetoothEvent(BluetoothEvent event) {
         if (event.ok()) {
             if (event.isConnected()) {
-                final int soc = event.getSOC();
                 bms = event.getBMS();
-                if (soc > 0) {// 发送电量的数据
-                    updateSOC(soc);
-
+                bm=bms;
+                V = event.getVoltage();
+                Log.i("Vaaa",V+"00000000000000");
+                if (V > 0) {// 发送电量的数据
+                    updateSOC(V);
                     //  handler.post(task);
                 } else { // 只发送连接的数据
                     mBTPresenter.sendDefault();// 自主避障功能使能（默认关闭）
@@ -380,38 +442,65 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     camera();
                     break;
                 case Command.TWO:
-                    cmd = 3;
+                    cmd = 2;
                     camera();
                     break;
                 case Command.THREE:
-                    cmd = 4;
+                    cmd = 3;
                     camera();
                     break;
                 case Command.FOUR:
-                    cmd = 5;
+                    cmd = 4;
                     camera();
                     break;
                 case Command.FIVE:
-                    cmd = 6;
+                    cmd = 5;
                     camera();
                     break;
                 case Command.SIX:
                     camera();
-                    cmd = 7;
+                    cmd = 6;
                     break;
                 case Command.SEVEN:
-                    cmd = 8;
+                    cmd = 9;
                     camera();
+                    break;
+                case Command.NINE:
+                    camera();
+                    cmd = 8;
                     break;
                 case Command.ACTION_CALL:
                     //点亮屏幕
                     wakeUp();
 
-                    if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
+                    /*if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         AVOSRobot robot = MPApplication.getsInstance().getRobot();
                         startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
                     }
+                    break;*/
+
+                    ////////////////////////////////////////////
+                    if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
+                        boolean flag = robot.getRobotCall();
+                        Log.i("call", flag + "#");
+                        if (flag) {
+                            startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
+                            robot.setRobotCall(false);
+                            robot.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    Log.i("call", "flag存储成功");
+                                }
+                            });
+                            Log.i("call", robot.getRobotCall() + "&");
+                        } else {
+                            ToastUtils.show(this, "机器人现在正在被连接！");
+
+                        }
+                    }
                     break;
+
+                    /////////////////////////////////////////////
                 case Command.ACTION_HOME:
                     if (!mBTPresenter.sendGoHome()) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));
@@ -500,13 +589,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     //判断电量及充电状态，并根据电量显示
-    private void updateSOC(int soc) {
-        index = soc / 10 + 1;
+    private void updateSOC(int V) {
+        index = V / 1500 + 1;
+        Log.i("index111",index+"aaaa");
         index = index > 10 ? 10 : index;
         String resName = String.format("battery%1$d", index * 10);
-        String chargeName=String.format("charge%1$d",index * 10);
-      //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
-        if (bms==3){
+        String chargeName = String.format("charge%1$d", index * 10);
+        //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+        if (bms == 3) {
             mBMSState.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
         } else {
             mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
@@ -550,15 +640,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateSpeechState();
     }
 
-    public void wakeUp(){
+    public void wakeUp() {
         //获取电源管理器对象
-        PowerManager pm=(PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
         //点亮屏幕
         wl.acquire();
         //得到键盘锁管理器对象
-        KeyguardManager km= (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         //参数是LogCat里用的Tag
         KeyguardManager.KeyguardLock kl = km.newKeyguardLock("unLock");
         //解锁

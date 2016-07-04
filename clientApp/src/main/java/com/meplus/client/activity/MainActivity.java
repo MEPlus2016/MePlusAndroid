@@ -8,14 +8,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.GetCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.meplus.activity.BaseActivity;
 import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
 import com.meplus.client.app.MPApplication;
+import com.meplus.client.utils.UUIDUtils;
 import com.meplus.punub.ErrorEvent;
 import com.meplus.punub.PubnubPresenter;
 import com.meplus.client.utils.IntentUtils;
@@ -56,6 +63,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private AgoraPresenter mAgoraPresenter = new AgoraPresenter();
     private String mChannel;
     private int mUserId;
+
+    //add
+    boolean flag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,6 +175,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 case Command.FIVE:
                 case Command.SIX:
                 case Command.SEVEN:
+                case Command.NINE:
                 case Command.ACTION_HOME:
                 case Command.ACTION_STOP:
                     mPubnubPresenter.publish(getApplicationContext(), command.getMessage());
@@ -210,21 +221,56 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+
     @OnClick(R.id.fab)
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+               /* final AVOSRobot robot = MPApplication.getsInstance().getRobot();
                 Snackbar.make(view, robot == null ? "绑定多我机器人吗？" : "唤醒多我机器人吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
                     if (robot == null) {
                         startActivity(IntentUtils.generateIntent(this, BindRobotActivity.class));
                     } else {
                         mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
                     }
+                }).show();*/
+
+
+                final AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
+                String uuId = user.getRobotUUId();
+
+                Snackbar.make(view, uuId == null ? "绑定多我机器人吗？" : "唤醒多我机器人吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
+                    if (uuId == null) {
+                        startActivity(IntentUtils.generateIntent(this, BindRobotActivity.class));
+                    } else {
+                        ////////////////////////////////////////////////*/
+                        //唤醒前访问数据库,add 代码
+                        final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                        AVObject theTodo = AVObject.createWithoutData("Robot", robot.getObjectId());
+                        String keys = "call";// 指定刷新的 key 字符串
+                        theTodo.fetchInBackground(keys, new GetCallback<AVObject>() {
+                            @Override
+                            public void done(AVObject avObject, AVException e) {
+                                // theTodo 的属性的值就是与服务端一致的
+                                flag = avObject.getBoolean("call");
+                                Log.i("client", flag + "@");
+                                // ToastUtils.show(this, flag + "$$");
+                                if (flag) {
+                                    mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
+                                    //finish();
+                                } else
+
+                                {
+                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人正在被连接，请稍后再试！");
+                                    //finish();
+                                }
+                            }
+                        });
+
+                    }
                 }).show();
         }
     }
-
 
     @Override
     public void onBackPressed() {
