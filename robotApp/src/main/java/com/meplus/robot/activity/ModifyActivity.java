@@ -59,6 +59,13 @@ public class ModifyActivity extends BaseActivity implements Validator.Validation
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        final AVOSRobot  robot = MPApplication.getsInstance().getRobot();
+        robot.setRobotOnline(false);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventUtils.unregister(this);

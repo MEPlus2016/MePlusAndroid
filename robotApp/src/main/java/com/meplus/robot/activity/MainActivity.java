@@ -233,9 +233,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         timer.schedule(timerTask, 3000, 60000);// 3秒后开始倒计时，倒计时间隔为1秒
     }
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -243,8 +240,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startUnderstand();
         }
 
-        //一旦回到主界面，就把flag变为true
+        //一旦回到主界面，就把call变为true,online为true
         robot.setRobotCall(true);
+        robot.setRobotOnline(true);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
@@ -257,6 +255,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onPause() {
         super.onPause();
         toggleSpeech(false);
+
+        robot.setRobotOnline(false);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
     }
 
     @Override
@@ -482,8 +487,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     ////////////////////////////////////////////
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         boolean flag = robot.getRobotCall();
+                        boolean online = robot.getRobotOnline();
                         Log.i("call", flag + "#");
-                        if (flag) {
+                        if (flag && online) {
                             startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
                             robot.setRobotCall(false);
                             robot.saveInBackground(new SaveCallback() {
@@ -493,9 +499,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             Log.i("call", robot.getRobotCall() + "&");
-                        } else {
+                        } else if(flag == false){
                             ToastUtils.show(this, "机器人现在正在被连接！");
-
+                        }else if(online == flag){
+                            ToastUtils.show(this, "机器人不在线！");
                         }
                     }
                     break;
@@ -563,6 +570,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.bms_state:
                 goHome();
+//                mBTPresenter.turnAround();
                 break;
         }
     }

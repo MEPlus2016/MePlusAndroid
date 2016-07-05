@@ -9,8 +9,10 @@ import android.widget.LinearLayout;
 import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.meplus.activity.BaseActivity;
+import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.events.EventUtils;
 import com.meplus.robot.R;
+import com.meplus.robot.app.MPApplication;
 import com.meplus.robot.utils.SnackBarUtils;
 import com.meplus.speech.event.LangEvent;
 import com.meplus.utils.FIRUtils;
@@ -62,6 +64,14 @@ public class SettingsActivity extends BaseActivity {
             EventUtils.postEvent(new LangEvent(isChecked ? LangEvent.ZH_LANG : LangEvent.EN_LANG));
         });
         mSpeechLanButton.setChecked(com.meplus.speech.Constants.LANG.equals(com.meplus.speech.Constants.ZH_LANG));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+        robot.setRobotOnline(false);
     }
 
     @Override

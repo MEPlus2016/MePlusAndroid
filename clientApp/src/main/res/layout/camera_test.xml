@@ -27,27 +27,29 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="170dp"
+                    android:layout_marginTop="200dp"
                     android:src="@drawable/camera2" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_camera"
+                android:layout_height="270dp"
+                android:background="@drawable/camera_bg"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/zero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginTop="0dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/camera" />
 
                 <ImageButton
                     android:id="@+id/three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
                     android:layout_marginTop="35dp"
                     android:background="@drawable/camera" />
 
@@ -55,19 +57,22 @@
                     android:id="@+id/img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/camera0"/>
 
                 <ImageButton
                     android:id="@+id/six"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/camera" />
 
                 <ImageButton
                     android:id="@+id/seven"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="48dp"
                     android:background="@drawable/camera" />
 
                 <!--<ImageButton
