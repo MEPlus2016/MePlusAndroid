@@ -24,19 +24,28 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meplus.events.EventUtils;
 import com.meplus.punub.Command;
+import com.meplus.robot.R;
 import com.meplus.robot.activity.DeviceListActivity;
 import com.meplus.robot.events.BluetoothEvent;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import app.akexorcist.bluetotohspp.library.BluetoothSPP;
 import app.akexorcist.bluetotohspp.library.BluetoothSPP.BluetoothConnectionListener;
 import app.akexorcist.bluetotohspp.library.BluetoothState;
+import butterknife.Bind;
 import hugo.weaving.DebugLog;
+import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.sample.agora.BaseEngineHandlerActivity;
+import io.agora.sample.agora.ChannelActivity;
+import io.agora.sample.agora.ToastUtils;
 
-public class BluetoothPresenter implements Handler.Callback {
+public class BluetoothPresenter extends BaseEngineHandlerActivity implements Handler.Callback {
     private static final String TAG = BluetoothPresenter.class.getSimpleName();
     private final static boolean ENABLE = true;
     private final int PERCENT = 42;
@@ -48,6 +57,39 @@ public class BluetoothPresenter implements Handler.Callback {
     private int V = 0;
     private byte CheckSum;
     private int Voltage;
+    int V1 = 0;
+    int V2 = 0;
+
+    private int mLastRxBytes = 0;
+    private int mLastTxBytes = 0;
+    private int mLastDuration = 0;
+
+    @Bind(R.id.stat_bytes)
+    TextView mStat_bytes;
+
+   /* @Override
+    public void onUpdateSessionStats(final IRtcEngineEventHandler.RtcStats stats) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // bytes
+                mStat_bytes.setText(((stats.txBytes + stats.rxBytes - mLastTxBytes - mLastRxBytes) / 1024 / (stats.totalDuration - mLastDuration + 1)) + "KB/s");
+                // remember data from this call back
+                mLastRxBytes = stats.rxBytes;
+                mLastTxBytes = stats.txBytes;
+                mLastDuration = stats.totalDuration;
+
+                String[] str = mStat_bytes.getText().toString().split("K");
+                int i = Integer.valueOf(str[0]).intValue();
+                Log.i("inter",i+"@@");
+                if(i<1){   //网速小于10KB/S,就自动断开视频
+                    V1 = 0;
+                    V2 = 0;
+                }
+            }
+        });
+    }*/
+
     public BluetoothPresenter(Context context) {
         if (!ENABLE) return;
         bt = new BluetoothSPP(context);
@@ -211,8 +253,8 @@ public class BluetoothPresenter implements Handler.Callback {
        /* final int V = (MAX * PERCENT / 100);*/
         int changeV = getV();
 
-        int V1 = 0;
-        int V2 = 0;
+        /*int V1 = 0;
+        int V2 = 0;*/
         byte V1H = 0;
         byte V1L = 0;
         byte V2H = 0;
@@ -325,7 +367,7 @@ public class BluetoothPresenter implements Handler.Callback {
                 Log.i(TAG, info);
                 final String dis = String.format("dis: %1$d,%2$d,%3$d,%4$d,%5$d", U1_Dis, U2_Dis, U3_Dis, U4_Dis, U5_Dis);
                 Log.i(TAG, dis);
-                Voltage=(int)Voltage_H*256+Voltage_L;
+                Voltage = (int) Voltage_H * 256 + Voltage_L;
                 final BluetoothEvent event = new BluetoothEvent();
                 event.setVoltage(Voltage);
                 event.setConnected(isConnected());
@@ -405,9 +447,8 @@ public class BluetoothPresenter implements Handler.Callback {
         byte V2L = 0;
 
 
-
-            V1 =50 / 2;
-            V2 = -50 / 2;
+        V1 = 50 / 2;
+        V2 = -50 / 2;
 
         V1H = (byte) (V1 >> 8);
         V2H = (byte) (V2 >> 8);

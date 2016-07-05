@@ -4,6 +4,8 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -70,6 +72,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int START_UNDERSTANDING = 2;
     private static final long START_SPEEKING_DELAY = 100;
     private static final long START_UNDERSTANDING_DELAY = 100;
+
+    private Context context;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -165,6 +169,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = this;
+
         // keep screen on - turned on
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Context context = getApplicationContext();
@@ -240,6 +247,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startUnderstand();
         }
 
+        //机器人本体人为的去停止
+        mBTPresenter.sendDirection(Command.ACTION_STOP);
+
         //一旦回到主界面，就把call变为true,online为true
         robot.setRobotCall(true);
         robot.setRobotOnline(true);
@@ -249,6 +259,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Log.i("call", "flag存储成功qq");
             }
         });
+
     }
 
     @Override
@@ -256,12 +267,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onPause();
         toggleSpeech(false);
 
+        //add isOnline
         robot.setRobotOnline(false);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
             }
         });
+
+        //add test isWifi
+        isWifi();
+    }
+
+    private void isWifi() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(networkInfo.isConnected()){
+            
+        }
     }
 
     @Override

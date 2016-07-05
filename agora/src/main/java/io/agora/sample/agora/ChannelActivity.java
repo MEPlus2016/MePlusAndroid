@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.meplus.utils.UIDUtil;
 
@@ -130,6 +131,19 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         initViews();
         setupChannel();
         setupTime();
+    }
+
+    //判断网络
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       /* String[] str = mByteCounts.getText().toString().split("K");
+        int i = Integer.valueOf(str[0]).intValue();
+        if(i<10){   //网速小于10KB/S,就自动断开视频
+            doBackPressed();
+        }*/
     }
 
     @Override
@@ -678,6 +692,14 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
                 mLastRxBytes = stats.rxBytes;
                 mLastTxBytes = stats.txBytes;
                 mLastDuration = stats.totalDuration;
+
+                String[] str = mByteCounts.getText().toString().split("K");
+                int i = Integer.valueOf(str[0]).intValue();
+                Log.i("inter",i+"###");
+                if(i<10){   //网速小于10KB/S,就自动断开视频
+                    ToastUtils.toShowToast(ChannelActivity.this,"网络质量差，请稍后再试。。。");
+                    doBackPressed();
+                }
             }
         });
     }
