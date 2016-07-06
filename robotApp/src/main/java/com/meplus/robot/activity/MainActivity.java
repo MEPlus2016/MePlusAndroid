@@ -562,7 +562,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 mBTPresenter.connectDeviceList(this);
                 break;
             case R.id.bms_state:
-                goHome();
+//                goHome();
+             mBTPresenter.turnAround();
                 break;
         }
     }

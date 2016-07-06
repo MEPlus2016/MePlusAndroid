@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MePlus</string>
 
-    <string name="me_phone_number">手机号</string>
+    <string name="me_phone_number">用户名</string>
     <string name="me_register">注册</string>
     <string name="me_password_number">密码</string>
     <string name="me_password_forgot">忘记密码 ？</string>

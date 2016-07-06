@@ -48,6 +48,7 @@ public class BluetoothPresenter implements Handler.Callback {
     private int V = 0;
     private byte CheckSum;
     private int Voltage;
+
     public BluetoothPresenter(Context context) {
         if (!ENABLE) return;
         bt = new BluetoothSPP(context);
@@ -255,6 +256,26 @@ public class BluetoothPresenter implements Handler.Callback {
         return true;
     }
 
+    @DebugLog
+    public boolean turnAround() {
+       /* final int V = (MAX * PERCENT / 100);*/
+        int V1 = 0;
+        int V2 = 0;
+        byte V1H = 0;
+        byte V1L = 0;
+        byte V2H = 0;
+        byte V2L = 0;
+        V1 = 400 / 2;
+        V2 = -400 / 2;
+        V1H = (byte) (V1 >> 8);
+        V2H = (byte) (V2 >> 8);
+        V1L = (byte) (V1);
+        V2L = (byte) (V2);
+        CheckSum = (byte) (0X66 + (byte) 0XAA + 0X09 + 0X11 + V1H + V1L + V2H + V2L);
+        byte[] buffer = new byte[]{0X66, (byte) 0XAA, 0X09, 0X11, V1H, V1L, V2H, V2L, CheckSum};
+        sendData(buffer);
+        return true;
+    }
 
     @DebugLog
     public void receivedData(byte[] data, String message) {
@@ -325,7 +346,7 @@ public class BluetoothPresenter implements Handler.Callback {
                 Log.i(TAG, info);
                 final String dis = String.format("dis: %1$d,%2$d,%3$d,%4$d,%5$d", U1_Dis, U2_Dis, U3_Dis, U4_Dis, U5_Dis);
                 Log.i(TAG, dis);
-                Voltage=(int)Voltage_H*256+Voltage_L;
+                Voltage = (int) Voltage_H * 256 + Voltage_L;
                 final BluetoothEvent event = new BluetoothEvent();
                 event.setVoltage(Voltage);
                 event.setConnected(isConnected());

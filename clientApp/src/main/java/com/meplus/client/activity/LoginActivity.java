@@ -1,6 +1,7 @@
 package com.meplus.client.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -62,8 +63,15 @@ public class LoginActivity extends BaseActivity {
             for (ValidationError error : errors) {
                 View view = error.getView();
                 String message = error.getCollatedErrorMessage(LoginActivity.this);
+                String toast="";
+                Log.i("message",message);
                 if (view instanceof EditText) {
-                    ((EditText) view).setError(message);
+                    if(message.equals("Invalid password")){
+                        toast="请输入六位以上密码";
+                    }else if(message.equals("This field is required")){
+                        toast="用户名不能为空";
+                    }
+                    SnackBarUtils.show(mRoot, toast);
                 } else {
                     SnackBarUtils.show(mRoot, message);
                 }
@@ -77,7 +85,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         EventUtils.register(this);
-
         mValidator = new Validator(this);
         mValidator.setValidationListener(mListener);
     }
@@ -85,7 +92,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         mValidator = null;
         EventUtils.unregister(this);
     }
@@ -112,7 +118,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
     @OnClick({R.id.password_button, R.id.login_button, R.id.register_button})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -138,7 +143,6 @@ public class LoginActivity extends BaseActivity {
     private void doLogin() {
         final String username = mPhoneEdit.getText().toString();
         final String password = mPasswordEdit.getText().toString();
-
         AVOSUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
             @Override
             public void done(AVUser avUser, AVException e) {
@@ -146,10 +150,16 @@ public class LoginActivity extends BaseActivity {
                     final AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
                     User.queryRobot(user);
                 } else {
-                    SnackBarUtils.show(mRoot, e.toString());
+                    int Code=e.getCode();
+                    String message="";
+                  if(Code==210){
+                      message="用户名和密码不匹配";
+                  }else if (Code==211){
+                      message="找不到用户";
+                  }
+                    SnackBarUtils.show(mRoot, message);
                 }
             }
         });
     }
-
 }

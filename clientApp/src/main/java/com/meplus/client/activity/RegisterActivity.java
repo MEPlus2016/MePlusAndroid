@@ -1,6 +1,7 @@
 package com.meplus.client.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -94,8 +95,19 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
+            String toast = "";
+            Log.i("message", message);
             if (view instanceof EditText) {
-                ((EditText) view).setError(message);
+                if (message.equals("This field is required")) {
+                    toast = "用户名不能为空";
+                } else if (message.equals("Invalid email")) {
+                    toast = "请填入正确的邮箱";
+                } else if (message.equals("Invalid password")) {
+                    toast = "请输入六位以上密码";
+                } else if (message.equals("Passwords don't match")) {
+                    toast = "确认密码不一致";
+                }
+                SnackBarUtils.show(mRoot, toast);
             } else {
                 SnackBarUtils.show(mRoot, message);
             }
@@ -120,7 +132,22 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     startActivity(IntentUtils.generateIntent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    SnackBarUtils.show(mRoot, e.toString());
+                    int Code = e.getCode();
+                    String message = "";
+                    if (Code == 200) {
+                        message = "没有提供用户名，或者用户名为空";
+                    } else if (Code == 201) {
+                        message = "没有提供密码，或者密码为空";
+                    } else if (Code == 202) {
+                        message = "用户名已经被占用";
+                    } else if (Code == 203) {
+                        message = "电子邮箱地址已经被占用";
+                    } else if (Code == 204) {
+                        message = "没有提供电子邮箱地址";
+                    } else if (Code == 205) {
+                        message = "找不到电子邮箱地址对应的用户";
+                    }
+                    SnackBarUtils.show(mRoot, message);
                 }
             }
         });
