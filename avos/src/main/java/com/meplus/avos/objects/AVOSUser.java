@@ -11,7 +11,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.meplus.events.EventUtils;
-import com.meplus.events.bindEvent;
+import com.meplus.events.BindEvent;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class AVOSUser extends AVUser {
                             }
                         });
                     }else{
-                        EventUtils.postEvent(new bindEvent());
+                        EventUtils.postEvent(new BindEvent());
                     }
                 }
             }

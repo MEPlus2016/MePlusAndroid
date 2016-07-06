@@ -255,6 +255,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             @Override
                             public void done(AVObject avObject, AVException e) {
                                 isOnline = avObject.getBoolean("online");
+                                flag = avObject.getBoolean("call");
+                                if (isOnline == false) {
+                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人不在线！");
+                                }
+                                if (flag && isOnline) {
+                                    mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
+                                    //finish();
+                                } else if (flag == false) {
+                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人正在被连接，请稍后再试！");
+                                    //finish();
+                                }
+                            }
+                        });
+
+                       /* theTodo.fetchInBackground(online, new GetCallback<AVObject>() {
+                            @Override
+                            public void done(AVObject avObject, AVException e) {
+                                isOnline = avObject.getBoolean("online");
                                 if (isOnline == false) {
                                     com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人不在线！");
                                 }
@@ -276,7 +294,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                     //finish();
                                 }
                             }
-                        });
+                        });*/
                     }
                 }).show();
         }

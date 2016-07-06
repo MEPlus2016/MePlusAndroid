@@ -39,7 +39,7 @@ public class ScannerActivity extends BaseActivity {
         if (event.ok()) {
             if (BuildConfig.DEBUG) {
                 final String content = event.getContent();
-                ToastUtils.show(this, content);
+//                ToastUtils.show(this, content);//关闭扫描提示
             }
             finish();
 //            SimpleScannerFragment simpleScannerFragment = (SimpleScannerFragment) findFragmentById(R.id.frame_layout);

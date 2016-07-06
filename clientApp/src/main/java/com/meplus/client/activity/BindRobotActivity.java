@@ -16,6 +16,7 @@ import com.meplus.client.avos.Robot;
 import com.meplus.client.avos.User;
 import com.meplus.client.events.ScannerEvent;
 import com.meplus.client.utils.SnackBarUtils;
+import com.meplus.events.BindEvent;
 import com.meplus.events.ErrorEvent;
 import com.meplus.events.EventUtils;
 import com.meplus.events.QueryEvent;
@@ -53,6 +54,9 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
     EditText mBindEdit;
 
     private Validator mValidator;
+
+    //add bingMessage
+    private String bindMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,16 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
                 mValidator.validate();
                 break;
             case R.id.scan_button:
-                startActivity(IntentUtils.generateIntent(this, ScannerActivity.class));
+                //判断，如果已经该账号已经绑定机器人，就不允许再绑定其他机器人
+                AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
+                String robotUuid = user.getRobotUUId();
+                if(robotUuid==null){
+                    startActivity(IntentUtils.generateIntent(this, ScannerActivity.class));
+                }else{
+                    com.meplus.utils.ToastUtils.toShowToast(this,"该用户已经绑定了机器人!");
+                    finish();
+                }
+
                 break;
         }
     }
@@ -146,8 +159,11 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onBindEvent(){
-
+    public void onBindEvent(BindEvent event){
+        if(event.ok()){
+            bindMessage = event.getMessage();
+            com.meplus.client.utils.ToastUtils.toShowToast(this,bindMessage);//已绑定信息提示
+        }
     }
 
     @DebugLog
