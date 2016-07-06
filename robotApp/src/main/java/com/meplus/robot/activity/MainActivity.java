@@ -506,8 +506,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
                     }
                     break;*/
-
-                    ////////////////////////////////////////////
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         boolean flag = robot.getRobotCall();
                         boolean online = robot.getRobotOnline();
@@ -530,7 +528,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     }
                     break;
 
-                /////////////////////////////////////////////
                 case Command.ACTION_HOME:
                     if (!mBTPresenter.sendGoHome()) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));
@@ -622,7 +619,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     //判断电量及充电状态，并根据电量显示
     private void updateSOC(int V) {
-        index = V / 1500 + 1;
+        index = (V -12500) / 250 + 1;
         Log.i("index111", index + "aaaa");
         index = index > 10 ? 10 : index;
         String resName = String.format("battery%1$d", index * 10);

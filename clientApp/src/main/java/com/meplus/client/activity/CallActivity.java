@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.GetCallback;
+import com.avos.avoscloud.LogUtil;
 import com.avos.avoscloud.SaveCallback;
 import com.meplus.activity.VideoActivity;
 import com.meplus.avos.objects.AVOSRobot;
@@ -88,24 +91,38 @@ public class CallActivity extends VideoActivity {
 
     int bms;
     AVOSRobot robot;
+    int index;
+    int bms_status;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             // Handler处理消息
             if (msg.what == 1) {
-                bms = robot.getInt("bms");
-                int flag = robot.getKeyRobotFlag();
-                //     int bms=robot.getRobotBms();
+                final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                AVObject object = AVObject.createWithoutData("Robot", robot.getObjectId());
+                String flag = "flag";
+                String bms = "bms";
+                object.fetchIfNeededInBackground(flag, new GetCallback<AVObject>() {
+                    @Override
+                    public void done(AVObject avObject, AVException e) {
+                        index = avObject.getInt("flag");
+                        bms_status = avObject.getInt("bms");
+                    }
+                });
+                Log.i("flag", index + "");
+                Log.i("bms", bms_status + "");
 
-                String resName = String.format("battery%1$d", flag * 10);
-                String chargeName = String.format("charge%1$d", flag * 10);
-                //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
-                if (bms == 3) {
-                    battery.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
-                } else {
-                    battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
-                }
+              if(index >0) {
+                  String resName = String.format("battery%1$d", index * 10);
+                  String chargeName = String.format("charge%1$d", index * 10);
+//                //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+                  if (bms_status == 3) {
+                      battery.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
+                  } else {
+                      battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+                  }
+              }
             }
         }
     };
@@ -123,11 +140,9 @@ public class CallActivity extends VideoActivity {
 //        battery.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
     }
 
-   /* @Override
+    @Override
     protected void onResume() {
         super.onResume();
-       robot = MPApplication.getsInstance().getRobot();
-        robot.setFetchWhenSave(true);
         Timer timer = new Timer();
         // 创建一个TimerTask
         // TimerTask是个抽象类,实现了Runnable接口，所以TimerTask就是一个子线程
@@ -140,14 +155,7 @@ public class CallActivity extends VideoActivity {
             }
         };
         timer.schedule(timerTask, 0, 1000);// 3秒后开始倒计时，倒计时间隔为60秒
-        robot.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-                bms = robot.getInt("bms");
-                Log.i("111",bms+"@@@");
-            }
-        });
-    }*/
+    }
 
     @Override
     public int getContentView() {
@@ -225,7 +233,7 @@ public class CallActivity extends VideoActivity {
                 message = Command.ACTION_RIGHT;
                 break;
             case R.id.down_button:
-                if(isButton) {
+                if (isButton) {
                     down.setPressed(true);
                     up.setPressed(false);
                     left.setPressed(false);
