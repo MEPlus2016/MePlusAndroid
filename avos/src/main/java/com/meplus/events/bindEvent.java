@@ -9,6 +9,6 @@ public class BindEvent extends BaseEvent{
     public BindEvent() {}
 
     public String getMessage(){
-        return "该机器人已经被绑定！";
+        return "该机器人已经被其他用户绑定！";
     }
 }
