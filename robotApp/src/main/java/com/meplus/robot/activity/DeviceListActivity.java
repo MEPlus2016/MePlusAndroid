@@ -18,14 +18,26 @@ package com.meplus.robot.activity;
 
 import android.os.Bundle;
 
+import com.meplus.avos.objects.AVOSRobot;
+import com.meplus.robot.app.MPApplication;
+
 import app.akexorcist.bluetotohspp.library.DeviceList;
 
 /**
  * 蓝牙设备列表
  */
 public class DeviceListActivity extends DeviceList {
+
+    final AVOSRobot robot = MPApplication.getsInstance().getRobot();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        robot.setRobotOnline(false);
     }
 }

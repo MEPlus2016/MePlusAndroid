@@ -113,6 +113,12 @@ public class TestsActivity extends BaseActivity {
         updateDis(MIN_DISTANCE, MIN_DISTANCE, MIN_DISTANCE, MIN_DISTANCE, MIN_DISTANCE);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final AVOSRobot  robot = MPApplication.getsInstance().getRobot();
+        robot.setRobotOnline(false);
+    }
 
     @Override
     protected void onStart() {

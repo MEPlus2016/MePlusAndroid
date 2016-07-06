@@ -74,6 +74,18 @@ public class CallActivity extends VideoActivity {
     @Bind(R.id.control)
     FrameLayout control;
 
+    @Bind(R.id.left_button)
+    ImageButton left;
+
+    @Bind(R.id.right_button)
+    ImageButton right;
+
+    @Bind(R.id.up_button)
+    ImageButton up;
+
+    @Bind(R.id.down_button)
+    ImageButton down;
+
     int bms;
     AVOSRobot robot;
     Handler handler = new Handler() {
@@ -82,11 +94,11 @@ public class CallActivity extends VideoActivity {
             super.handleMessage(msg);
             // Handler处理消息
             if (msg.what == 1) {
-                        bms=robot.getInt("bms");
+                bms = robot.getInt("bms");
                 int flag = robot.getKeyRobotFlag();
-           //     int bms=robot.getRobotBms();
+                //     int bms=robot.getRobotBms();
 
-                String resName = String.format("battery%1$d",flag * 10);
+                String resName = String.format("battery%1$d", flag * 10);
                 String chargeName = String.format("charge%1$d", flag * 10);
                 //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
                 if (bms == 3) {
@@ -177,18 +189,48 @@ public class CallActivity extends VideoActivity {
         String message = "";
         switch (id) {
             case MotionEvent.ACTION_UP:
+                if (isButton) {
+                    up.setPressed(false);
+                    down.setPressed(false);
+                    left.setPressed(false);
+                    right.setPressed(false);
+                }
                 message = Command.ACTION_STOP;
                 break;
             case R.id.left_button:
+                if (isButton) {
+                    left.setPressed(true);
+                    right.setPressed(false);
+                    up.setPressed(false);
+                    down.setPressed(false);
+                }
                 message = Command.ACTION_LEFT;
                 break;
             case R.id.up_button:
+                if (isButton) {
+                    up.setPressed(true);
+                    down.setPressed(false);
+                    left.setPressed(false);
+                    right.setPressed(false);
+                }
                 message = Command.ACTION_UP;
                 break;
             case R.id.right_button:
+                if (isButton) {
+                    right.setPressed(true);
+                    left.setPressed(false);
+                    up.setPressed(false);
+                    down.setPressed(false);
+                }
                 message = Command.ACTION_RIGHT;
                 break;
             case R.id.down_button:
+                if(isButton) {
+                    down.setPressed(true);
+                    up.setPressed(false);
+                    left.setPressed(false);
+                    right.setPressed(false);
+                }
                 message = Command.ACTION_DOWN;
                 break;
             case R.id.zero:

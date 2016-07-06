@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     //add
     boolean flag;
+    boolean isOnline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -247,24 +248,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         //唤醒前访问数据库,add 代码
                         final AVOSRobot robot = MPApplication.getsInstance().getRobot();
                         AVObject theTodo = AVObject.createWithoutData("Robot", robot.getObjectId());
-                        String keys = "call";// 指定刷新的 key 字符串
-                        theTodo.fetchInBackground(keys, new GetCallback<AVObject>() {
+                        String call = "call";// 指定刷新的 call 字符串
+                        String online = "online";
+
+                        theTodo.fetchInBackground(online, new GetCallback<AVObject>() {
+                            @Override
+                            public void done(AVObject avObject, AVException e) {
+                                isOnline = avObject.getBoolean("online");
+                                if (isOnline == false) {
+                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人不在线！");
+                                }
+                            }
+                        });
+
+                        theTodo.fetchInBackground(call, new GetCallback<AVObject>() {
                             @Override
                             public void done(AVObject avObject, AVException e) {
                                 // theTodo 的属性的值就是与服务端一致的
                                 flag = avObject.getBoolean("call");
                                 Log.i("client", flag + "@");
                                 // ToastUtils.show(this, flag + "$$");
-                                if (flag) {
+                                if (flag && isOnline) {
                                     mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
                                     //finish();
-                                } else {
-                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人正在被连接，请稍后再试！");
+                                } else if(flag == false){
+                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人正在被连接，请稍后再试！");
                                     //finish();
                                 }
                             }
                         });
-
                     }
                 }).show();
         }

@@ -4,6 +4,8 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -71,6 +73,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final long START_SPEEKING_DELAY = 100;
     private static final long START_UNDERSTANDING_DELAY = 100;
 
+    private Context context;
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
@@ -110,7 +114,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     Timer timer;
     int bm;
 
-    final AVOSRobot  robot = MPApplication.getsInstance().getRobot();
+    final AVOSRobot robot = MPApplication.getsInstance().getRobot();
 
 
 //
@@ -145,18 +149,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             // Handler处理消息
             if (msg.what == 1) {
-                AVOSRobot robot=MPApplication.getsInstance().getRobot();
+                AVOSRobot robot = MPApplication.getsInstance().getRobot();
                 robot.setKeyRobotFlag(index);
                 robot.setKeyRobotBms(bm);
-                Log.i("test@@",bm+"@@@");
+                Log.i("test@@", bm + "@@@");
                 robot.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(AVException e) {
-                    if (e == null) {
-                        Log.d("saved", "success!");
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null) {
+                            Log.d("saved", "success!");
+                        }
                     }
-                }
-            });
+                });
             }
         }
     };
@@ -165,6 +169,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = this;
+
         // keep screen on - turned on
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Context context = getApplicationContext();
@@ -233,9 +240,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         timer.schedule(timerTask, 3000, 60000);// 3秒后开始倒计时，倒计时间隔为1秒
     }
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -243,20 +247,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startUnderstand();
         }
 
-        //一旦回到主界面，就把flag变为true
+        //机器人本体人为的去停止
+        mBTPresenter.sendDirection(Command.ACTION_STOP);
+
+        //一旦回到主界面，就把call变为true,online为true
         robot.setRobotCall(true);
+        robot.setRobotOnline(true);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
                 Log.i("call", "flag存储成功qq");
             }
         });
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         toggleSpeech(false);
+
+        //add isOnline
+        robot.setRobotOnline(false);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
+
+        //add test isWifi
+        isWifi();
+    }
+
+    private void isWifi() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo.isConnected()) {
+
+        }
     }
 
     @Override
@@ -403,9 +431,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (event.ok()) {
             if (event.isConnected()) {
                 bms = event.getBMS();
-                bm=bms;
+                bm = bms;
                 V = event.getVoltage();
-                Log.i("Vaaa",V+"00000000000000");
+                Log.i("Vaaa", V + "00000000000000");
                 if (V > 0) {// 发送电量的数据
                     updateSOC(V);
                     //  handler.post(task);
@@ -482,8 +510,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     ////////////////////////////////////////////
                     if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         boolean flag = robot.getRobotCall();
+                        boolean online = robot.getRobotOnline();
                         Log.i("call", flag + "#");
-                        if (flag) {
+                        if (flag && online) {
                             startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
                             robot.setRobotCall(false);
                             robot.saveInBackground(new SaveCallback() {
@@ -493,14 +522,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             Log.i("call", robot.getRobotCall() + "&");
-                        } else {
+                        } else if (flag == false) {
                             ToastUtils.show(this, "机器人现在正在被连接！");
-
+                        } else if (online == flag) {
+                            ToastUtils.show(this, "机器人不在线！");
                         }
                     }
                     break;
 
-                    /////////////////////////////////////////////
+                /////////////////////////////////////////////
                 case Command.ACTION_HOME:
                     if (!mBTPresenter.sendGoHome()) {
                         ToastUtils.show(this, getString(R.string.bt_unconnected));
@@ -562,8 +592,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 mBTPresenter.connectDeviceList(this);
                 break;
             case R.id.bms_state:
-//                goHome();
-             mBTPresenter.turnAround();
+                goHome();
+//                mBTPresenter.turnAround();
+
                 break;
         }
     }
@@ -592,7 +623,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //判断电量及充电状态，并根据电量显示
     private void updateSOC(int V) {
         index = V / 1500 + 1;
-        Log.i("index111",index+"aaaa");
+        Log.i("index111", index + "aaaa");
         index = index > 10 ? 10 : index;
         String resName = String.format("battery%1$d", index * 10);
         String chargeName = String.format("charge%1$d", index * 10);
