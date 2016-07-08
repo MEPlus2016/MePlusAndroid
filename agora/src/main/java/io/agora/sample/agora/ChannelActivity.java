@@ -115,6 +115,9 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
     public final static String EXTRA_TYPE = "EXTRA_TYPE";
     public final static String EXTRA_CHANNEL = "EXTRA_CHANNEL";
 
+    boolean flag = false;
+    private LinearLayout mChannel_top_actions_container;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -131,6 +134,20 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         initViews();
         setupChannel();
         setupTime();
+
+        //进入界面隐藏状态栏
+        mChannel_top_actions_container.setVisibility(View.GONE);
+    }
+
+    public void click(View view){
+        if(!flag){
+            flag = true;
+            mChannel_top_actions_container.setVisibility(View.VISIBLE);
+        }else{
+            flag = false;
+            mChannel_top_actions_container.setVisibility(View.GONE);
+        }
+
     }
 
     //判断网络
@@ -341,6 +358,9 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         speaker.setChecked(false);
         cameraEnabler.setChecked(false);
         cameraSwitch.setChecked(false);
+
+        //add
+        mChannel_top_actions_container = (LinearLayout) findViewById(R.id.channel_top_actions_container);
 
         mDuration = (TextView) findViewById(R.id.stat_time);
         mByteCounts = (TextView) findViewById(R.id.stat_bytes);
