@@ -256,10 +256,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             public void done(AVObject avObject, AVException e) {
                                 isOnline = avObject.getBoolean("online");
                                 flag = avObject.getBoolean("call");
-                                if (isOnline == false) {
+                                if (isOnline == false & flag == true) {
                                     com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人不在线！");
                                 }
                                 if (flag && isOnline) {
+//                                if (flag) {
                                     mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
                                     //finish();
                                 } else if (flag == false) {

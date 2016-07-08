@@ -22,6 +22,10 @@ public class AVOSRobot extends AVObject {
     private final static String KEY_ROBOT_BMS = "bms";
     private final static String KEY_ROBOT_CALL = "call";//视频是否有人连接
     private final static String KEY_ROBOT_ONLINE = "online";
+    private final static String KEY_ROBOT_TOOTH = "tooth";
+
+    public boolean getRobotTooth(){return getBoolean(KEY_ROBOT_TOOTH);}
+    public void setRobotTooth(boolean isTooth){put(KEY_ROBOT_TOOTH,isTooth);}
 
     public boolean getRobotOnline(){return getBoolean(KEY_ROBOT_ONLINE);}
     public void setRobotOnline(boolean isOnline){put(KEY_ROBOT_ONLINE,isOnline);}

@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/icon_robot"
         android:textColor="@color/meWhite"
+        android:singleLine="true"
         android:textSize="@dimen/meTextSize"
         android:layout_marginTop="5dp"/>
 

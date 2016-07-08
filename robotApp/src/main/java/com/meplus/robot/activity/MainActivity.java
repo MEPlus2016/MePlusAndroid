@@ -261,13 +261,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //一旦回到主界面，就把call变为true,online为true
         robot.setRobotOnline(true);
-        /*robot.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-                Log.i("online", "online存储成功qq");
-            }
-        });*/
-
         robot.setRobotCall(true);
         robot.saveInBackground(new SaveCallback() {
             @Override
@@ -283,28 +276,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onPause();
         toggleSpeech(false);
 
-        //add isOnline
+        /*//add isOnline
         robot.setRobotOnline(false);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
             }
-        });
+        });*/
 
         //add test isWifi
 //        isWifi();
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    private void isWifi() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
-=======
-=======
->>>>>>> Stashed changes
     /*private void isWifi() {
         ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
->>>>>>> Stashed changes
         NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (networkInfo.isConnected()) {
 
@@ -340,6 +325,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mUnderstandPersenter.destroy();
         mTtsPresenter.destroy();
         EventUtils.unregister(this);
+
+        //add isOnline
+        robot.setRobotOnline(false);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
     }
 
     @Override
@@ -524,6 +517,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 case Command.ACTION_CALL:
                     //点亮屏幕
                     wakeUp();
+                    //把online设置为true
 
                     /*if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         AVOSRobot robot = MPApplication.getsInstance().getRobot();
@@ -544,11 +538,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             Log.i("call", robot.getRobotCall() + "&");
-                        } else if (flag == false) {
+                        }/* else if (flag == false) {
                             ToastUtils.show(this, "机器人现在正在被连接！");
                         } else if (online == flag) {
                             ToastUtils.show(this, "机器人不在线！");
-                        }
+                        }*/
                     }
                     break;
 
@@ -660,6 +654,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateBluetoothState(boolean state) {
         mBluetoothState.setText(state ? getString(R.string.bt_connect) : getString(R.string.bt_unconnect));
+        if(state){
+            robot.setRobotTooth(true);
+            robot.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+
+                }
+            });
+        }else{
+            robot.setRobotTooth(false);
+            robot.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+
+                }
+            });
+        }
     }
 
     private void startUnderstand() {
@@ -696,6 +707,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     public void wakeUp() {
+
+        robot.setRobotOnline(true);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
+
         //获取电源管理器对象
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag

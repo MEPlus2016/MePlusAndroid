@@ -96,8 +96,9 @@ public class VideoActivity extends ChannelActivity {
     @Override
     public void timeEscaped(int time) {
         super.timeEscaped(time);
-        if (time > 10 && mUids.isEmpty()) { // 10 秒钟无人进入，就自动退出。
-            Toast.makeText(VideoActivity.this, "对方不在线", Toast.LENGTH_SHORT).show();
+        if (time > 8 && mUids.isEmpty()) { // 8 秒钟无人进入，就自动退出。
+//            Toast.makeText(VideoActivity.this, "对方不在线", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VideoActivity.this, "机器人网路信号差！请稍后再试。。。", Toast.LENGTH_SHORT).show();
             doBackPressed();
         }
     }
