@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -55,8 +56,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @Bind(R.id.nav_view)
-
     NavigationView mNavigationView;
+    @Bind(R.id.fab)
+    ImageView fab;
     private NavHeaderViewHolder mHeaderHolder;
 
     private PubnubPresenter mPubnubPresenter = new PubnubPresenter();
@@ -105,6 +107,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         final View headerView = mNavigationView.getHeaderView(0);
         mHeaderHolder = new NavHeaderViewHolder(headerView);
         mHeaderHolder.updateHeader();
+
+        //add bind or wake
+        if(robot == null){
+            fab.setBackgroundResource(R.drawable.bind);
+        }else{
+            fab.setBackgroundResource(R.drawable.wake);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+        //add bind or wake
+        if(robot == null){
+            fab.setBackgroundResource(R.drawable.bind);
+        }else{
+            fab.setBackgroundResource(R.drawable.wake);
+        }
     }
 
     @Override
@@ -227,24 +248,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-               /* final AVOSRobot robot = MPApplication.getsInstance().getRobot();
-                Snackbar.make(view, robot == null ? "绑定多我机器人吗？" : "唤醒多我机器人吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
-                    if (robot == null) {
-                        startActivity(IntentUtils.generateIntent(this, BindRobotActivity.class));
-                    } else {
-                        mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
-                    }
-                }).show();*/
-
-
                 final AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
                 String uuId = user.getRobotUUId();
 
-                Snackbar.make(view, uuId == null ? "绑定多我机器人吗？" : "唤醒多我机器人吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
+                if(uuId == null){
+                    startActivity(IntentUtils.generateIntent(this, BindRobotActivity.class));
+                }else{
+                    //唤醒前访问数据库,add 代码
+                    final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                    AVObject theTodo = AVObject.createWithoutData("Robot", robot.getObjectId());
+                    String call = "call";// 指定刷新的 call 字符串
+                    String online = "online";
+
+                    theTodo.fetchInBackground(online, new GetCallback<AVObject>() {
+                        @Override
+                        public void done(AVObject avObject, AVException e) {
+                            isOnline = avObject.getBoolean("online");
+                            flag = avObject.getBoolean("call");
+                            if (isOnline == false & flag == true) {
+                                com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人不在线！");
+                            }
+                            if (flag && isOnline) {
+//                                if (flag) {
+                                mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
+                                //finish();
+                            } else if (flag == false) {
+                                com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人正在被连接，请稍后再试！");
+                                //finish();
+                            }
+                        }
+                    });
+                }
+               /* Snackbar.make(view, uuId == null ? "绑定多我机器人吗？" : "唤醒多我机器人吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
                     if (uuId == null) {
                         startActivity(IntentUtils.generateIntent(this, BindRobotActivity.class));
                     } else {
-                        ////////////////////////////////////////////////*/
+                        ///////////////////////////////////////////////*//*//*
                         //唤醒前访问数据库,add 代码
                         final AVOSRobot robot = MPApplication.getsInstance().getRobot();
                         AVObject theTodo = AVObject.createWithoutData("Robot", robot.getObjectId());
@@ -269,35 +308,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             }
                         });
-
-                       /* theTodo.fetchInBackground(online, new GetCallback<AVObject>() {
-                            @Override
-                            public void done(AVObject avObject, AVException e) {
-                                isOnline = avObject.getBoolean("online");
-                                if (isOnline == false) {
-                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this,"该机器人不在线！");
-                                }
-                            }
-                        });
-
-                        theTodo.fetchInBackground(call, new GetCallback<AVObject>() {
-                            @Override
-                            public void done(AVObject avObject, AVException e) {
-                                // theTodo 的属性的值就是与服务端一致的
-                                flag = avObject.getBoolean("call");
-                                Log.i("client", flag + "@");
-                                // ToastUtils.show(this, flag + "$$");
-                                if (flag && isOnline) {
-                                    mPubnubPresenter.publish(getApplicationContext(), Command.ACTION_CALL);
-                                    //finish();
-                                } else if(flag == false){
-                                    com.meplus.client.utils.ToastUtils.toShowToast(MainActivity.this, "该机器人正在被连接，请稍后再试！");
-                                    //finish();
-                                }
-                            }
-                        });*/
                     }
-                }).show();
+                }).show();*/
         }
     }
 
