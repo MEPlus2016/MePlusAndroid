@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mHeaderHolder.updateView(robot);
 
         updateBluetoothState(false);
-        updateSOC(0);
+        updateSOC(12500);
         toggleSpeech(mOpenSpeech);
 
         //add soc
