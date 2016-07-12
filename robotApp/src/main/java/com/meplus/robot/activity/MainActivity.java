@@ -208,7 +208,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setTitle("首页");
+        //getSupportActionBar().setTitle("");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -238,6 +238,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         };
         timer.schedule(timerTask, 3000, 60000);// 3秒后开始倒计时，倒计时间隔为1秒
+
+        //
+        robot.setRobotOnline(true);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                Log.i("call", "flag存储成功qq");
+            }
+        });
     }
 
     @Override
@@ -251,8 +260,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBTPresenter.sendDirection(Command.ACTION_STOP);
 
         //一旦回到主界面，就把call变为true,online为true
-        robot.setRobotCall(true);
         robot.setRobotOnline(true);
+        robot.setRobotCall(true);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
@@ -267,25 +276,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onPause();
         toggleSpeech(false);
 
-        //add isOnline
+        /*//add isOnline
         robot.setRobotOnline(false);
         robot.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
             }
-        });
+        });*/
 
         //add test isWifi
-        isWifi();
+//        isWifi();
     }
 
-    private void isWifi() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+    /*private void isWifi() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (networkInfo.isConnected()) {
 
         }
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -316,6 +325,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mUnderstandPersenter.destroy();
         mTtsPresenter.destroy();
         EventUtils.unregister(this);
+
+        //add isOnline
+        robot.setRobotOnline(false);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
     }
 
     @Override
@@ -500,6 +517,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 case Command.ACTION_CALL:
                     //点亮屏幕
                     wakeUp();
+                    //把online设置为true
 
                     /*if (!MPApplication.getsInstance().getIsInChannel()) { // 如果正在通电话那么就不能在进入了
                         AVOSRobot robot = MPApplication.getsInstance().getRobot();
@@ -520,11 +538,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             Log.i("call", robot.getRobotCall() + "&");
-                        } else if (flag == false) {
+                        }/* else if (flag == false) {
                             ToastUtils.show(this, "机器人现在正在被连接！");
                         } else if (online == flag) {
                             ToastUtils.show(this, "机器人不在线！");
-                        }
+                        }*/
                     }
                     break;
 
@@ -571,6 +589,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_settings:
                 startActivity(IntentUtils.generateIntent(this, SettingsActivity.class));
                 break;
+            case R.id.nav_fresh:
+                startActivity(IntentUtils.generateIntent(this,LogoActivity.class));
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -634,6 +654,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateBluetoothState(boolean state) {
         mBluetoothState.setText(state ? getString(R.string.bt_connect) : getString(R.string.bt_unconnect));
+        if(state){
+            robot.setRobotTooth(true);
+            robot.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+
+                }
+            });
+        }else{
+            robot.setRobotTooth(false);
+            robot.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+
+                }
+            });
+        }
     }
 
     private void startUnderstand() {
@@ -670,6 +707,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     public void wakeUp() {
+
+        robot.setRobotOnline(true);
+        robot.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+            }
+        });
+
         //获取电源管理器对象
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag

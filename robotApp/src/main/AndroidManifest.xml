@@ -68,6 +68,9 @@
         <activity
             android:name="com.meplus.avos.activity.FeedbackActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.WifiActivity"
+            android:screenOrientation="landscape"/>
 
         //开机自启动
         <receiver android:name=".BroadcastReceiver.BootBroadcastReceiver">

@@ -25,6 +25,7 @@ import com.meplus.client.app.MPApplication;
 import com.meplus.events.EventUtils;
 import com.meplus.punub.Command;
 import com.meplus.punub.CommandEvent;
+import com.meplus.utils.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -186,6 +187,18 @@ public class CallActivity extends VideoActivity {
         final int id = view.getId();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                AVObject object = AVObject.createWithoutData("Robot",robot.getObjectId());
+                String tooth = "tooth";
+                object.fetchInBackground(new GetCallback<AVObject>() {
+                    @Override
+                    public void done(AVObject avObject, AVException e) {
+                        boolean isTooth = avObject.getBoolean("tooth");
+                        if(!isTooth){
+                            ToastUtils.toShowToast(CallActivity.this,"蓝牙未连接，请先连接。。。");
+                        }
+                    }
+                });
                 return postEvent(id);
             case MotionEvent.ACTION_UP:
                 return postEvent(MotionEvent.ACTION_UP);

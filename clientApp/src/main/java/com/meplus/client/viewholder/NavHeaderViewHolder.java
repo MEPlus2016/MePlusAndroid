@@ -49,7 +49,6 @@ public class NavHeaderViewHolder {
                 if(e == null){
                     String uuId = user.getRobotUUId();
                     mContent.setText(TextUtils.isEmpty(uuId) ? "  未绑定多我机器人" : String.format("  机器人:%1$s", uuId));
-
                 }
             }
         });
