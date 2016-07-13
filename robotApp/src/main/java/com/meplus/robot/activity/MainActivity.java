@@ -116,29 +116,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     final AVOSRobot robot = MPApplication.getsInstance().getRobot();
 
-
-//
-    //   private Handler handler;
-
-    //    private Handler handler = new Handler();
-//    private Runnable task = new Runnable() {
-//        public void run() {
-//            // TODOAuto-generated method stub
-//            handler.postDelayed(this, 600000);//设置延迟时间，此处是600秒
-//            //需要执行的代码
-//            AVOSRobot robot = new AVOSRobot();
-//            robot.setBattary(index);
-//            robot.setUUId(UUIDUtils.getUUID(MainActivity.this));
-//            robot.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(AVException e) {
-//                    if (e == null) {
-//                        Log.d("saved", "success!");
-//                    }
-//                }
-//            });
-//        }
-//    };
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -222,10 +199,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateBluetoothState(false);
         updateSOC(12500);
         toggleSpeech(mOpenSpeech);
-
-        //add soc
-        //   handler = new Handler(this);
-        //   handler.sendEmptyMessageDelayed(3,50000);
         timer = new Timer();
         // 创建一个TimerTask
         // TimerTask是个抽象类,实现了Runnable接口，所以TimerTask就是一个子线程
@@ -257,7 +230,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         //机器人本体人为的去停止
-        mBTPresenter.sendDirection(Command.ACTION_STOP);
+        //mBTPresenter.sendDirection(Command.ACTION_STOP);
 
         //一旦回到主界面，就把call变为true,online为true
         robot.setRobotOnline(true);
@@ -355,18 +328,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     mUnderstandPersenter.startUnderstanding();
                 }
                 return true;
-            case 3:
-                final AVOSRobot robot = MPApplication.getsInstance().getRobot();
-                //updateSOC(index);//更新index
-                robot.setBattary(index);
-                robot.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if (e == null) {
-                            Log.d("saved", "success!");
-                        }
-                    }
-                });
 
                 //   handler.sendEmptyMessageDelayed(,50000);
 
@@ -555,7 +516,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 default:
                     break;
             }
-
         }
     }
 
@@ -654,23 +614,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateBluetoothState(boolean state) {
         mBluetoothState.setText(state ? getString(R.string.bt_connect) : getString(R.string.bt_unconnect));
-        if(state){
-            robot.setRobotTooth(true);
-            robot.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(AVException e) {
-
-                }
-            });
-        }else{
-            robot.setRobotTooth(false);
-            robot.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(AVException e) {
-
-                }
-            });
-        }
+//        if(state){
+//            robot.setRobotTooth(true);
+//            robot.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(AVException e) {
+//
+//                }
+//            });
+//        }else{
+//            robot.setRobotTooth(false);
+//            robot.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(AVException e) {
+//
+//                }
+//            });
+//        }
     }
 
     private void startUnderstand() {
