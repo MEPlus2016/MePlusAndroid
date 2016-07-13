@@ -376,6 +376,15 @@
                     android:layout_marginRight="20dp"
                     android:background="@drawable/selector_button_hung_up" />
 
+                <ImageButton
+                    android:id="@+id/battery"
+                    android:layout_width="55dp"
+                    android:layout_height="35dp"
+                    android:layout_toLeftOf="@+id/action_hung_up"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/battery10" />
+
                 <TextView
                     android:id="@+id/channel_notification_old"
                     android:layout_width="180dp"

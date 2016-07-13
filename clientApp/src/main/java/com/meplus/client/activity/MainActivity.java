@@ -119,9 +119,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onResume() {
         super.onResume();
-        final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+        //final AVOSRobot robot = MPApplication.getsInstance().getRobot();
+        AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
+        String uuid = user.getRobotUUId();
         //add bind or wake
-        if(robot == null){
+        if(uuid == null){
             fab.setBackgroundResource(R.drawable.bind);
         }else{
             fab.setBackgroundResource(R.drawable.wake);

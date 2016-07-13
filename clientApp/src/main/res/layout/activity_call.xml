@@ -10,7 +10,7 @@
 
     <include layout="@layout/agora_activity_channel" />
 
-    <FrameLayout
+    <!--<FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
@@ -18,7 +18,7 @@
         android:layout_marginRight="80dp">
 
         <include layout="@layout/control_layout_bottom" />
-    </FrameLayout>
+    </FrameLayout>-->
 
     <FrameLayout
         android:id="@+id/control"
