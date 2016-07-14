@@ -488,6 +488,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     cmd = 8;
                     break;
                 case Command.ACTION_CALL:
+
                     //点亮屏幕
                     wakeUp();
                     //把online设置为true
@@ -502,7 +503,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         boolean online = robot.getRobotOnline();
                         Log.i("call", flag + "#");
                         if (flag && online) {
-                            startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
+//                            startActivity(com.meplus.activity.IntentUtils.generateVideoIntent(this, mChannel, robot.getRobotId()));
+                            startActivity(com.meplus.robot.utils.IntentUtils.generateCallIntent(this, mChannel, robot.getRobotId()));
+
                             robot.setRobotCall(false);
                             robot.saveInBackground(new SaveCallback() {
                                 @Override

@@ -72,6 +72,10 @@
             android:name=".activity.WifiActivity"
             android:screenOrientation="landscape"/>
 
+        <activity
+            android:name=".activity.TestCallingActivity"
+            android:screenOrientation="landscape"/>
+
         //开机自启动
         <receiver android:name=".BroadcastReceiver.BootBroadcastReceiver">
             <intent-filter>
