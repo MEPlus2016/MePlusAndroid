@@ -185,6 +185,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         setContentView(R.layout.activity_main);
+
         EventUtils.register(this);
 
         mBTPresenter.create(context);
@@ -207,6 +208,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
+        //add----------------标题透明
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.alpha));
 
         //getSupportActionBar().setTitle("");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);

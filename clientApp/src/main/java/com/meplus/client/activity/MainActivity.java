@@ -93,6 +93,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
+        //add----------------标题透明
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.alpha));
+
         mToolbar.setNavigationIcon(R.drawable.menu);
 
 //        getSupportActionBar().setTitle("");
