@@ -139,6 +139,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     }
                 });
             }
+
+            //add 蓝牙存值
+            if(msg.what == 2){
+                AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                robot.setRobotTooth(true);
+                robot.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+
+                    }
+                });
+            }
+            if(msg.what ==3){
+                AVOSRobot robot = MPApplication.getsInstance().getRobot();
+                robot.setRobotTooth(false);
+                robot.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+
+                    }
+                });
+            }
         }
     };
 
@@ -249,25 +271,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onPause();
         toggleSpeech(false);
 
-        /*//add isOnline
-        robot.setRobotOnline(false);
-        robot.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-            }
-        });*/
-
-        //add test isWifi
-//        isWifi();
     }
-
-    /*private void isWifi() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (networkInfo.isConnected()) {
-
-        }
-    }*/
 
     @Override
     protected void onStart() {
@@ -611,23 +615,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateBluetoothState(boolean state) {
         mBluetoothState.setText(state ? getString(R.string.bt_connect) : getString(R.string.bt_unconnect));
-//        if(state){
-//            robot.setRobotTooth(true);
-//            robot.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(AVException e) {
-//
-//                }
-//            });
-//        }else{
-//            robot.setRobotTooth(false);
-//            robot.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(AVException e) {
-//
-//                }
-//            });
-//        }
+
+       /* Timer timer2 = new Timer();
+        if (state) {
+            TimerTask timerTask2 = new TimerTask() {
+                @Override
+                public void run() {
+                    Message msg = new Message();
+                    msg.what = 2;
+                    handler.sendMessage(msg);
+                }
+            };
+            timer2.schedule(timerTask2, 3000, 180000);// 3秒后开始倒计时，倒计时间隔为1秒
+        } else {
+            TimerTask timerTask2 = new TimerTask() {
+                @Override
+                public void run() {
+                    Message msg = new Message();
+                    msg.what = 3;
+                    handler.sendMessage(msg);
+                }
+            };
+            timer2.schedule(timerTask2, 3000, 180000);// 3秒后开始倒计时，倒计时间隔为1秒
+        }*/
+
     }
 
     private void startUnderstand() {
