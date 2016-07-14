@@ -619,7 +619,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void updateBluetoothState(boolean state) {
         mBluetoothState.setText(state ? getString(R.string.bt_connect) : getString(R.string.bt_unconnect));
 
-        Timer timer2 = new Timer();
+       /* Timer timer2 = new Timer();
         if (state) {
             TimerTask timerTask2 = new TimerTask() {
                 @Override
@@ -640,7 +640,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             };
             timer2.schedule(timerTask2, 3000, 180000);// 3秒后开始倒计时，倒计时间隔为1秒
-        }
+        }*/
 
     }
 
