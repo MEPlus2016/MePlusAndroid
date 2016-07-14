@@ -383,7 +383,8 @@
                     android:layout_toLeftOf="@+id/action_hung_up"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/battery10" />
+                    android:background="@color/transparent"
+                    android:src="@drawable/battery10" />
 
                 <TextView
                     android:id="@+id/channel_notification_old"

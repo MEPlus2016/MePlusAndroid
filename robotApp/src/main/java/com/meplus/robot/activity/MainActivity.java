@@ -422,6 +422,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (event.isConnected()) {
                 bms = event.getBMS();
                 bm = bms;
+
                 V = event.getVoltage();
                 Log.i("Vaaa", V + "00000000000000");
                 if (V > 0) {// 发送电量的数据
