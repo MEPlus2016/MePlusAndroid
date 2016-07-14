@@ -328,9 +328,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     mUnderstandPersenter.startUnderstanding();
                 }
                 return true;
-
                 //   handler.sendEmptyMessageDelayed(,50000);
-
             default:
                 break;
         }
@@ -368,7 +366,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
     }
-
 
     @DebugLog
     @Subscribe(threadMode = ThreadMode.MAIN)
