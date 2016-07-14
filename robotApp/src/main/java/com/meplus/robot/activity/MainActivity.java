@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
 import com.meplus.activity.BaseActivity;
 import com.meplus.avos.objects.AVOSRobot;
@@ -251,8 +252,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startUnderstand();
         }
 
-        //机器人本体人为的去停止
-        //mBTPresenter.sendDirection(Command.ACTION_STOP);
+        //机器人本体人为的去停止---判断是否是正在充电状态
+        stop();
 
         //一旦回到主界面，就把call变为true,online为true
         robot.setRobotOnline(true);
@@ -264,6 +265,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+    }
+
+    private void stop() {
+        if(bm!=3) {//不在充电，则停止
+            mBTPresenter.sendDirection(Command.ACTION_STOP);
+        }
     }
 
     @Override
