@@ -691,13 +691,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void wakeUp() {
 
-        robot.setRobotOnline(true);
-        robot.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-            }
-        });
-
         //获取电源管理器对象
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
