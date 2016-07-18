@@ -269,6 +269,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        //add wifi判断
+        //isWifiConnected(this);
+
+    }
+
+    public boolean isWifiConnected(Context context){
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if(!networkInfo.isConnected()){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(isWifiConnected(this)){
+                IntentUtils.generateIntent(this,LogoActivity.class);
+            }
+
+        }
+        return networkInfo.isConnected()==true?true:false;
     }
 
     private void stop() {
@@ -515,11 +536,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             Log.i("call", robot.getRobotCall() + "&");
-                        }/* else if (flag == false) {
-                            ToastUtils.show(this, "机器人现在正在被连接！");
-                        } else if (online == flag) {
-                            ToastUtils.show(this, "机器人不在线！");
-                        }*/
+                        }
                     }
                     break;
 

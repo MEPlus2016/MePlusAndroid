@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.meplus.activity.VideoActivity;
 import com.meplus.events.EventUtils;
+import com.meplus.punub.Command;
 import com.meplus.robot.R;
 import com.meplus.robot.events.BluetoothEvent;
 import com.meplus.robot.presenters.BluetoothPresenter;
@@ -18,9 +20,13 @@ import com.meplus.robot.presenters.BluetoothPresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.trinea.android.common.util.ToastUtils;
+import io.agora.rtc.IRtcEngineEventHandler;
 
 /**
  * Created by Dream on 2016/7/14.
@@ -32,6 +38,11 @@ public class TestCallingActivity extends VideoActivity {
 
     @Bind(R.id.battery)
     ImageButton battery0;
+
+//    ---------------------------------
+    @Bind(R.id.stat_bytes)
+    TextView mStat_bytes;
+//    -----------------------------------
 
     private Context context;
     private boolean mBluetoothSupport = true;
@@ -121,10 +132,36 @@ public class TestCallingActivity extends VideoActivity {
         String resName = String.format("battery%1$d", index * 10);
         String chargeName = String.format("charge%1$d", index * 10);
         //  mBMSState.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
-        if (bms == 3) {
+        if (bms == 3||bms == 7) {
             battery0.setImageResource(getResources().getIdentifier(chargeName, "drawable", getPackageName()));
         } else {
             battery0.setImageResource(getResources().getIdentifier(resName, "drawable", getPackageName()));
+        }
+    }
+
+/////////////////////////////////////////////////////////////////////
+    private final List<String> mUids = new ArrayList<>();
+    @Override
+    public synchronized void onUserJoined(int uid, int elapsed) {
+        super.onUserJoined(uid, elapsed);
+        final String strUid = String.valueOf(uid);
+        if (!mUids.contains(strUid)) {
+            mUids.add(strUid);
+        }
+    }
+
+    @Override
+    public void timeEscaped(int time) {
+        super.timeEscaped(time);
+
+        if(mUids.isEmpty()){
+            if(bms!=3){
+                mBTPresenter.sendDirection(Command.ACTION_STOP);
+                //com.meplus.utils.ToastUtils.toShowToast(this,"stop");
+            }
+            if(time>3){
+                doBackPressed();
+            }
         }
     }
 }
