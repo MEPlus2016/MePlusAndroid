@@ -87,7 +87,10 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.logout_button:
                 Snackbar.make(view, "是否退出当前账户吗？", Snackbar.LENGTH_LONG).setAction("确定", v -> {
-                    MPApplication.getsInstance().logOut();
+                    /*MPApplication.getsInstance().logOut();
+                    EventUtils.postEvent(new LogoutEvent());
+                    finish();*/
+                   startActivity(com.meplus.client.utils.IntentUtils.generateIntent(this, LoginActivity.class));
                     EventUtils.postEvent(new LogoutEvent());
                     finish();
                 }).show();
