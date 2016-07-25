@@ -1,8 +1,10 @@
 package io.agora.sample.agora;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,12 +33,15 @@ import android.widget.Toast;
 
 import com.meplus.utils.UIDUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
+import io.agora.sample.agora.EventUtils.TimeEvent;
 
 /**
  * Created by apple on 15/9/18.
@@ -118,11 +123,19 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
     boolean flag = false;
     private LinearLayout mChannel_top_actions_container;
 
+    private long start;
+    private long end;
+    private long totalTime;
+
+    public SharedPreferences sp;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstance);
         setContentView(getContentView());
+
+        sp = getSharedPreferences("sp", Activity.MODE_PRIVATE);
 
         userId = getIntent().getIntExtra(EXTRA_USER_ID, UIDUtil.getUid());
         callingType = getIntent().getIntExtra(EXTRA_TYPE, CALLING_TYPE_VIDEO);
@@ -137,6 +150,8 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 
         //进入界面隐藏状态栏
         mChannel_top_actions_container.setVisibility(View.GONE);
+        //获取系统现在的时间
+        start = System.currentTimeMillis();
     }
 
     public void click(View view){
@@ -150,17 +165,16 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 
     }
 
-    //判断网络
-
-
     @Override
-    protected void onResume() {
-        super.onResume();
-       /* String[] str = mByteCounts.getText().toString().split("K");
-        int i = Integer.valueOf(str[0]).intValue();
-        if(i<10){   //网速小于10KB/S,就自动断开视频
-            doBackPressed();
-        }*/
+    protected void onStop() {
+        super.onStop();
+        end = System.currentTimeMillis();
+        totalTime = end - start;
+        String strTime = Long.toString(totalTime);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("time",strTime);
+        editor.commit();
+        //EventBus.getDefault().post(new TimeEvent(totalTime));
     }
 
     @Override
@@ -565,8 +579,10 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         callId = rtcEngine.getCallId();
         ((AgoraApplication) getApplication()).setCallId(callId);
         String recordValue = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss").format(Calendar.getInstance().getTime());
-        String recordUrl = rtcEngine.makeQualityReportUrl(channel, uid, 0, 0);
-        ((AgoraApplication) getApplication()).setRecordDate(callId, recordValue + "+" + recordUrl);
+        Log.i("rec",recordValue+"======record======");
+//        String recordUrl = rtcEngine.makeQualityReportUrl(channel, uid, 0, 0);
+//        ((AgoraApplication) getApplication()).setRecordDate(callId, recordValue + "+" + recordUrl);
+        ((AgoraApplication) getApplication()).setRecordDate(callId, recordValue);
     }
 
     public void onError(final int err) {
@@ -715,7 +731,7 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 
                 String[] str = mByteCounts.getText().toString().split("K");
                 int i = Integer.valueOf(str[0]).intValue();
-                Log.i("inter",i+"###");
+                Log.i("inter", i + "###");
                 if(i<5){   //网速小于10KB/S,就自动断开视频
                     ToastUtils.toShowToast(ChannelActivity.this,"网络质量差，请稍后再试。。。");
                     doBackPressed();
@@ -831,15 +847,16 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // 去掉 Evaluation
+                 //去掉 Evaluation
 //                ((AgoraApplication) getApplication()).setIsInChannel(false);
 //                ((AgoraApplication) getApplication()).setChannelTime(0);
 //                if (isCorrect) {
-//                    mEvaluationContainer.setVisibility(View.VISIBLE);
+////                    mEvaluationContainer.setVisibility(View.VISIBLE);
 //                    if (stats.totalDuration >= 3600) {
-//                        ((TextView) findViewById(R.id.evaluation_time)).setText(String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60)));
+//                        Log.i("total",stats.totalDuration+"");
+//                                ((TextView) findViewById(R.id.dur_time)).setText(String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60)));
 //                    } else {
-//                        ((TextView) findViewById(R.id.evaluation_time)).setText(String.format("%02d:%02d", (time % 3600) / 60, (time % 60)));
+//                        ((TextView) findViewById(R.id.dur_time)).setText(String.format("%02d:%02d", (time % 3600) / 60, (time % 60)));
 //                    }
 //                    if (((stats.txBytes + stats.rxBytes) / 1024 / 1024) > 0) {
 //                        ((TextView) findViewById(R.id.evaluation_bytes)).setText(Integer.toString((stats.txBytes + stats.rxBytes) / 1024 / 1024) + "MB");
@@ -875,7 +892,6 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
 //                    finish();
 //                    Intent i = new Intent(ChannelActivity.this, LoginActivity.class);
 //                    startActivity(i);
-//                }
             }
         });
     }

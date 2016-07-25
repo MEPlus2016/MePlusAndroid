@@ -90,13 +90,11 @@ public class SettingsActivity extends BaseActivity {
                     /*MPApplication.getsInstance().logOut();
                     EventUtils.postEvent(new LogoutEvent());
                     finish();*/
-                   startActivity(com.meplus.client.utils.IntentUtils.generateIntent(this, LoginActivity.class));
+                    startActivity(com.meplus.client.utils.IntentUtils.generateIntent(this, LoginActivity.class));
                     EventUtils.postEvent(new LogoutEvent());
                     finish();
                 }).show();
                 break;
         }
     }
-
-
 }

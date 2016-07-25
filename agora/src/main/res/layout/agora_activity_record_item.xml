@@ -13,6 +13,26 @@
         android:layout_height="106dp"
         android:background="@drawable/ic_history_rectangle_bg">
 
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="用户名："
+            android:textSize="7pt"
+            android:textColor="@color/about_gray"
+            android:layout_marginLeft="26.2dp"/>
+
+        <TextView
+            android:id="@+id/userID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="7pt"
+            android:textColor="@color/about_gray"
+            android:layout_toRightOf="@+id/user"
+            android:text="111"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="23dp"
@@ -59,8 +79,33 @@
             android:layout_marginTop="69dp"
             android:layout_marginLeft="26.2dp"
             android:src="@drawable/ic_history_cell_dot"/>
-        
+
         <TextView
+            android:id="@+id/time0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48.8dp"
+            android:layout_marginTop="63.8dp"
+            android:gravity="center"
+            android:text="@string/record_time"
+            android:textSize="6pt"
+            android:textColor="@color/about_gray"/>
+
+        <TextView
+            android:id="@+id/dur_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/time0"
+            android:layout_marginTop="63.8dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/about_gray"
+            android:text="000"/>
+
+        
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48.8dp"
@@ -68,7 +113,7 @@
             android:gravity="center"
             android:text="@string/record_report"
             android:textSize="6pt"
-            android:textColor="@color/about_gray"/>
+            android:textColor="@color/about_gray"/>-->
 
     </RelativeLayout>
 

@@ -117,6 +117,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }else{
             fab.setBackgroundResource(R.drawable.wake);
         }
+
+        //测试userUUID
+        Log.i("userUUID",UUIDUtils.getUUID(this)+"============");
     }
 
     @Override

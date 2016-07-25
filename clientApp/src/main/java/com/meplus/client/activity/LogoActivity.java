@@ -3,6 +3,7 @@ package com.meplus.client.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.meplus.activity.BaseActivity;
@@ -11,6 +12,7 @@ import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
 import com.meplus.client.app.MPApplication;
 import com.meplus.client.avos.User;
+import com.meplus.client.utils.UUIDUtils;
 import com.meplus.events.ErrorEvent;
 import com.meplus.events.EventUtils;
 import com.meplus.events.QueryEvent;

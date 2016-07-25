@@ -42,4 +42,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     // app
     compile project(':base')
+    //eventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

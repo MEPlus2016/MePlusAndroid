@@ -1,8 +1,11 @@
 package io.agora.sample.agora;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +15,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.sample.agora.EventUtils.TimeEvent;
 import io.agora.sample.agora.Model.Record;
 
 /**
@@ -27,16 +36,45 @@ public class RecordActivity extends BaseEngineHandlerActivity {
     private TextView overallTime;
     private int time;
     private List<Record> records = new ArrayList<Record>();
+    private SharedPreferences sp;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstance);
         setContentView(R.layout.agora_activity_record);
+
+        //EventBus.getDefault().register(this);
+        sp = getSharedPreferences("time", Activity.MODE_PRIVATE);
+
         ((AgoraApplication) getApplication()).initRecordsList();
+        records.clear();
         records.addAll(((AgoraApplication) getApplication()).getRecordsList());
         initViews();
         setupListView();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        records.clear();
+        //EventBus.getDefault().unregister(this);
+    }
+
+    private long totalTime;
+
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTimeEvent(TimeEvent event) {
+        totalTime = event.getTime();
+        String str = Long.toString(totalTime);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("time",str).commit();
+        Log.i("total", str + "@@@@");
+
+    }*/
+
+    public void clear(View view) {
+        mListView.setAdapter(null);
     }
 
     @Override
@@ -61,6 +99,7 @@ public class RecordActivity extends BaseEngineHandlerActivity {
         findViewById(R.id.record_back).setOnClickListener(getViewClickListener());
         RelativeLayout overallButton = (RelativeLayout) findViewById(R.id.record_overall);
         overallButton.setOnClickListener(getViewClickListener());
+
         if (((AgoraApplication) getApplication()).getIsInChannel()) {
             overallButton.setVisibility(View.VISIBLE);
             time = ((AgoraApplication) getApplication()).getChannelTime();
@@ -105,6 +144,8 @@ public class RecordActivity extends BaseEngineHandlerActivity {
         public RecordAdapter(Context context, List<Record> items) {
             super();
             this.context = context;
+            //先清空再加载
+            this.items.clear();
             this.items.addAll(items);
         }
 
@@ -125,6 +166,13 @@ public class RecordActivity extends BaseEngineHandlerActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
+            //读取sp
+            SharedPreferences sharedPreferences= getSharedPreferences("sp", Activity.MODE_PRIVATE);
+            String strTime = sharedPreferences.getString("time","");
+            Log.i("str",strTime+"WWWW");//strTime为null
+            long mTime = Long.parseLong(strTime);
+
             ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
@@ -134,12 +182,21 @@ public class RecordActivity extends BaseEngineHandlerActivity {
                 holder.itemLayout = (RelativeLayout) convertView.findViewById(R.id.record_item_layout);
                 holder.itemDate = (TextView) convertView.findViewById(R.id.record_item_date);
                 holder.itemTime = (TextView) convertView.findViewById(R.id.record_item_time);
+                holder.userUUID = (TextView) convertView.findViewById(R.id.userID);
+                holder.durTime = (TextView) convertView.findViewById(R.id.dur_time);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             holder.itemDate.setText(records.get(position).getRecordValue().substring(0, records.get(position).getRecordValue().indexOf("/")));
-            holder.itemTime.setText(records.get(position).getRecordValue().substring(records.get(position).getRecordValue().indexOf("/") + 1, records.get(position).getRecordValue().indexOf("+") - 1));
+//            holder.itemTime.setText(records.get(position).getRecordValue().substring(records.get(position).getRecordValue().indexOf("/") + 1, records.get(position).getRecordValue().indexOf("+") - 1));
+            holder.itemTime.setText(records.get(position).getRecordValue().substring(records.get(position).getRecordValue().indexOf("/") + 1));
+            holder.userUUID.setText(UUIDUtils.getUUID(RecordActivity.this));
+            if (mTime >= 3600000) {
+                holder.durTime.setText(String.format("%d:%02d:%02d", mTime / 3600000, (mTime % 3600000) / 60000, ((mTime % 60000))/1000));
+            } else {
+                holder.durTime.setText(String.format("%02d:%02d", (mTime % 3600000) / 60000, ((mTime % 60000)/1000)));
+            }
             final int number = position;
             // 不做任何跳转
 //
@@ -159,5 +216,8 @@ public class RecordActivity extends BaseEngineHandlerActivity {
         private RelativeLayout itemLayout;
         private TextView itemDate;
         private TextView itemTime;
+        private TextView userUUID;
+        private TextView durTime;
     }
+
 }

@@ -67,6 +67,7 @@
     <string name="record_title">通话记录</string>
     <string name="record_report">通话报告......</string>
     <string name="record_quality">通话质量</string>
+    <string name="record_time">通话时长</string>
 
     <string name="about_title">关于</string>
     <string name="about_name">Agora(会议宝)</string>

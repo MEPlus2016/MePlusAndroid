@@ -266,6 +266,9 @@ public class AgoraApplication extends BaseApplication {
             for (String recordsKey : getAllRecords().keySet()) {
                 if (!TextUtils.isEmpty(callIdKey) && !TextUtils.isEmpty(recordsKey)) {
                     if (recordsKey.equals(callIdKey)) {
+                        //add----------------
+//                        recordsList.clear();
+                        //-------------------------------
                         recordsList.add(new Record(callIdKey, (String) getAllRecords().get(recordsKey)));
                     }
                 }
