@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     boolean flag;
     boolean isOnline;
 
+    //测试提交
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

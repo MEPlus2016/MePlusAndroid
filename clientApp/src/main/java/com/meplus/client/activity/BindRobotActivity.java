@@ -107,7 +107,8 @@ public class BindRobotActivity extends BaseActivity implements ValidationListene
                 if(robotUuid==null){
                     startActivity(IntentUtils.generateIntent(this, ScannerActivity.class));
                 }else{
-                    com.meplus.utils.ToastUtils.toShowToast(this,"该用户已经绑定了机器人!");
+//                    com.meplus.utils.ToastUtils.toShowToast(this,"该用户已经绑定了机器人!");
+                    com.meplus.client.utils.ToastUtils.toShowToast(this,"该用户已经绑定了机器人！");
                     finish();
                 }
 

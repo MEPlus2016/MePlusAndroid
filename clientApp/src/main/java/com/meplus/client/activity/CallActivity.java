@@ -22,10 +22,10 @@ import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
 import com.meplus.client.app.MPApplication;
+import com.meplus.client.utils.ToastUtils;
 import com.meplus.events.EventUtils;
 import com.meplus.punub.Command;
 import com.meplus.punub.CommandEvent;
-import com.meplus.utils.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -195,7 +195,7 @@ public class CallActivity extends VideoActivity {
                     public void done(AVObject avObject, AVException e) {
                         boolean isTooth = avObject.getBoolean("tooth");
                         if(!isTooth){
-                            ToastUtils.toShowToast(CallActivity.this,"蓝牙未连接，请先连接。。。");
+                           ToastUtils.toShowToast(CallActivity.this,"蓝牙未连接，请先连接。。。");
                         }
                     }
                 });
