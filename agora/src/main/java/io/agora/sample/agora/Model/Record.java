@@ -19,4 +19,7 @@ public class Record {
     public String getRecordValue() {
         return recordValue;
     }
+
+    //add
+    public String getTotalTime(long time){return Long.toString(time);}
 }

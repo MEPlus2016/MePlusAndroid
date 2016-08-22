@@ -26,7 +26,8 @@ public class AgoraApplication extends BaseApplication {
 
     private SharedPreferences user;
     private SharedPreferences settings;
-    private SharedPreferences call;
+//    private SharedPreferences call;
+    public SharedPreferences call;
     private SharedPreferences record;
 
     private SharedPreferences.Editor userEditor;
@@ -262,13 +263,12 @@ public class AgoraApplication extends BaseApplication {
     //----------------------------------------------------------------------------------------------
 
     public void initRecordsList() {
+        //add  每次add前先清空
+        recordsList.clear();
         for (String callIdKey : getAllCallIds().keySet()) {
             for (String recordsKey : getAllRecords().keySet()) {
                 if (!TextUtils.isEmpty(callIdKey) && !TextUtils.isEmpty(recordsKey)) {
                     if (recordsKey.equals(callIdKey)) {
-                        //add----------------
-//                        recordsList.clear();
-                        //-------------------------------
                         recordsList.add(new Record(callIdKey, (String) getAllRecords().get(recordsKey)));
                     }
                 }

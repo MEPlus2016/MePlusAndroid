@@ -732,10 +732,11 @@ public class ChannelActivity extends BaseEngineHandlerActivity {
                 String[] str = mByteCounts.getText().toString().split("K");
                 int i = Integer.valueOf(str[0]).intValue();
                 Log.i("inter", i + "###");
-                if(i<5){   //网速小于10KB/S,就自动断开视频
+                //测试暂时关闭
+                /*if(i<5){   //网速小于10KB/S,就自动断开视频
                     ToastUtils.toShowToast(ChannelActivity.this,"网络质量差，请稍后再试。。。");
                     doBackPressed();
-                }
+                }*/
             }
         });
     }

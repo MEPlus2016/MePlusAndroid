@@ -63,19 +63,8 @@ public class RecordActivity extends BaseEngineHandlerActivity {
         //EventBus.getDefault().unregister(this);
     }
 
-    private long totalTime;
-
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTimeEvent(TimeEvent event) {
-        totalTime = event.getTime();
-        String str = Long.toString(totalTime);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("time",str).commit();
-        Log.i("total", str + "@@@@");
-
-    }*/
-
     public void clear(View view) {
+        ((AgoraApplication)getApplication()).call.edit().clear();
         mListView.setAdapter(null);
     }
 
@@ -194,10 +183,12 @@ public class RecordActivity extends BaseEngineHandlerActivity {
 //            holder.itemTime.setText(records.get(position).getRecordValue().substring(records.get(position).getRecordValue().indexOf("/") + 1, records.get(position).getRecordValue().indexOf("+") - 1));
             holder.itemTime.setText(records.get(position).getRecordValue().substring(records.get(position).getRecordValue().indexOf("/") + 1));
             holder.userUUID.setText(UUIDUtils.getUUID(RecordActivity.this));
-            if (mTime >= 3600000) {
-                holder.durTime.setText(String.format("%d:%02d:%02d", mTime / 3600000, (mTime % 3600000) / 60000, ((mTime % 60000))/1000));
+
+            long mTime0 = Long.parseLong(records.get(position).getTotalTime(mTime));
+            if (mTime0 >= 3600000) {
+                holder.durTime.setText(String.format("%d:%02d:%02d", mTime0 / 3600000, (mTime0 % 3600000) / 60000, ((mTime0 % 60000))/1000));
             } else {
-                holder.durTime.setText(String.format("%02d:%02d", (mTime % 3600000) / 60000, ((mTime % 60000)/1000)));
+                holder.durTime.setText(String.format("%02d:%02d", (mTime0 % 3600000) / 60000, ((mTime0 % 60000)/1000)));
             }
             final int number = position;
             // 不做任何跳转

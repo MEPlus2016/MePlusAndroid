@@ -1,11 +1,14 @@
 package com.meplus.client.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,12 +21,15 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.marvinlabs.intents.MediaIntents;
 import com.meplus.activity.BaseActivity;
+import com.meplus.avos.Constants;
 import com.meplus.avos.objects.AVOSRobot;
 import com.meplus.avos.objects.AVOSUser;
 import com.meplus.client.R;
 import com.meplus.client.app.MPApplication;
 import com.meplus.client.utils.UUIDUtils;
+import com.meplus.fir.FirVersion;
 import com.meplus.punub.ErrorEvent;
 import com.meplus.punub.PubnubPresenter;
 import com.meplus.client.utils.IntentUtils;
@@ -35,6 +41,7 @@ import com.meplus.presenters.AgoraPresenter;
 import com.meplus.punub.Command;
 import com.meplus.punub.CommandEvent;
 import com.meplus.punub.StateEvent;
+import com.meplus.utils.JsonUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -42,8 +49,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.trinea.android.common.util.PackageUtils;
 import cn.trinea.android.common.util.ToastUtils;
 import hugo.weaving.DebugLog;
+import im.fir.sdk.FIR;
+import im.fir.sdk.VersionCheckCallback;
 import io.agora.sample.agora.AgoraApplication;
 
 /**
@@ -62,7 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavHeaderViewHolder mHeaderHolder;
 
     private PubnubPresenter mPubnubPresenter = new PubnubPresenter();
-    private AgoraPresenter mAgoraPresenter = new AgoraPresenter();
+    private AgoraPresenter mAgoraPresenter = new AgoraPresenter();//声明agora
     private String mChannel;
     private int mUserId;
 
@@ -70,7 +80,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     boolean flag;
     boolean isOnline;
 
-    //测试提交
+    //add 自动更新
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +89,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         setContentView(R.layout.activity_main);
         EventUtils.register(this);
+
+        context = this;
 
         // 初始化
         final AVOSUser user = AVOSUser.getCurrentUser(AVOSUser.class);
@@ -122,6 +135,43 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //测试userUUID
         Log.i("userUUID",UUIDUtils.getUUID(this)+"============");
+        //版本更新时自动弹出更新对话框,没有反应？
+        final int versionCode = PackageUtils.getAppVersionCode(context);//手机版本
+        Log.i("ver",versionCode+"##");
+        FIR.checkForUpdateInFIR(Constants.FIR_TOKEN, new VersionCheckCallback() {
+            @Override
+            public void onSuccess(String s) {
+//                super.onSuccess(s);
+                final FirVersion version = JsonUtils.readValue(s, FirVersion.class);
+                Log.i("ver",version.getVersion()+"**");
+                if(versionCode<version.getVersion()){
+                    //弹出对话框(系统对话框)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("软件更新");
+                    builder.setMessage("检测到新版本，立即更新吗？");
+
+                    //确定按钮
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            context.startActivity(MediaIntents.newOpenWebBrowserIntent(version.getUpdate_url()));
+                        }
+                    });
+                    //取消按钮
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    //show,不能忘
+                    builder.show();
+                }
+            }
+        });
+
     }
 
     @Override

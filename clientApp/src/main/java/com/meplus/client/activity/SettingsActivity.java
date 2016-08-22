@@ -78,11 +78,11 @@ public class SettingsActivity extends BaseActivity {
             case R.id.password_layout:
                 startActivity(IntentUtils.generateIntent(this, EditPasswordActivity.class));
                 break;
-            case R.id.feeback_layout:
+            case R.id.feeback_layout://意见反馈
                 FeedbackAgent agent = new FeedbackAgent(this);
                 agent.startDefaultThreadActivity();
                 break;
-            case R.id.update_layout:
+            case R.id.update_layout://版本检查
                 FIRUtils.checkForUpdateInFIR(this, mCallback);
                 break;
             case R.id.logout_button:
